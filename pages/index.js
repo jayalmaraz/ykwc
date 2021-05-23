@@ -13,71 +13,55 @@ export default function Home() {
 
       <div
         className={
-          "flex flex-col   min-h-screen content-between justify-between"
+          "flex flex-col min-h-screen content-between justify-between items-center bg-gradient-to-br from-red-50 to-blue-50"
         }
       >
-        <main className="flex-col flex-grow pt-8 px-14">
-          <h1 className={"text-5xl font-bold"}>
-            Welcome to <a href="https://nextjs.org">Next.js!</a>
-          </h1>
+        <main className="flex-grow pb-64">
+          <div className=" flex justify-center pt-48 pb-32">
+            <div>
+              <h1 className="text-6xl font-bold tracking-tight">
+                You know what’s cool?
+              </h1>
+              <div>
+                <p className="font-bruh font-bold text-justify pl-4 tracking-tighter">
+                  y k w c .dev
+                  <span className="w-full inline-block" aria-hidden />
+                </p>
+              </div>
+            </div>
+          </div>
 
-          <p>
-            Get started by editing <code>pages/index.js</code>
-          </p>
+          <div className="text-xl grid grid-cols-1 gap-1 py-24">
+            <p>
+              <span className="bg-black text-white font-bold pt-8 pl-6 pb-1 pr-1">
+                cool
+              </span>{" "}
+              is tech that makes sense,
+            </p>
+            <p>
+              <span className="font-bold pt-8 pl-6 pb-1 ">cool</span> is easy to
+              work with, easy to use, and
+            </p>
+            <p>
+              <span className="font-bold pt-8 pl-6 pb-1 ">cool</span> is simple.
+            </p>
+          </div>
 
-          <div className="py-8 flex flex-col">
-            <a href="https://nextjs.org/docs">
-              <h2 className="text-2xl inline font-medium mr-4">
-                Documentation &rarr;
-              </h2>
-              <p className="inline">
-                Find in-depth information about Next.js features and API.
-              </p>
-            </a>
-
-            <a href="https://nextjs.org/learn">
-              <h2 className="text-2xl inline font-medium mr-4">Learn &rarr;</h2>
-              <p className="inline">
-                Learn about Next.js in an interactive course with quizzes!
-              </p>
-            </a>
-
-            <a href="https://github.com/vercel/next.js/tree/master/examples">
-              <h2 className="text-2xl inline font-medium mr-4">
-                Examples &rarr;
-              </h2>
-              <p className="inline">
-                Discover and deploy boilerplate example Next.js projects.
-              </p>
-            </a>
-
-            <a href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-              <h2 className="text-2xl inline font-medium mr-4">
-                Deploy &rarr;
-              </h2>
-              <p className="inline">
-                Instantly deploy your Next.js site to a public URL with Vercel.
-              </p>
-            </a>
+          <div className="text-xl flex justify-center py-24">
+            <p>
+              <span className="ring-black ring-4 py-4 px-2 font-bold mr-3">
+                your idea is cool,
+              </span>{" "}
+              let's make it happen.
+            </p>
           </div>
         </main>
 
-        <footer className={"bg-gray-50 py-8 px-14"}>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Powered by{" "}
-            <span>
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
-            </span>
-          </a>
+        <footer className="bg-white py-20 w-full pl-8">
+          <p className="font-bold text-xl tracking-wider">ykwc.dev</p>
+          <p className="text-xs">
+            © 2021 YOU KNOW WHAT'S COOL?, All Rights Reserved
+          </p>
         </footer>
       </div>
     </>

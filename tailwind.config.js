@@ -6,6 +6,10 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      sans: ['"Montserrat"', "sans-serif"],
+      serif: ["Merriweather", "serif"],
+    },
     extend: {},
   },
   variants: {
