@@ -20,11 +20,35 @@ export default function Home() {
           <div className=" flex justify-center pt-48 pb-32">
             <div>
               <h1 className="text-6xl font-bold tracking-tight">
-                You know what’s cool?
+                You know what’s c
+                <span className="transition-colors relative group hover:text-white">
+                  o
+                  <a
+                    href="#"
+                    className="transition-colors group-hover:text-red-500 rounded-full text-white absolute text-xs text-right pr-1 leading-3 top-6 left-0.5 h-9 w-9"
+                  >
+                    yk
+                    <br />
+                    wc
+                    <br />
+                    .dev
+                  </a>
+                </span>
+                ol?
               </h1>
-              <div>
-                <p className="font-bruh font-bold text-justify pl-4 tracking-tighter">
-                  y k w c .dev
+
+              <div className="group font-bold">
+                <p className="text-justify pl-16 relative">
+                  <span className="group-hover:opacity-25 transition-opacity">
+                    {"y k w c "}
+                  </span>
+                  <a
+                    href="#"
+                    className="text-right right-0 absolute opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500"
+                  >
+                    ykwc.dev
+                  </a>
+                  .dev
                   <span className="w-full inline-block" aria-hidden />
                 </p>
               </div>
