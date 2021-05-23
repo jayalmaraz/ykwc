@@ -10,7 +10,11 @@ module.exports = {
       sans: ['"Montserrat"', "sans-serif"],
       serif: ["Merriweather", "serif"],
     },
-    extend: {},
+    extend: {
+      lineHeight: {
+        15: "3.5rem",
+      },
+    },
   },
   variants: {
     extend: {

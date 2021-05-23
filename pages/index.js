@@ -60,16 +60,25 @@ export default function Home() {
           "flex flex-col min-h-screen content-between justify-between items-center bg-gradient-to-br from-red-50 to-blue-50"
         }
       >
-        <main className="flex-grow pb-64">
-          <div className=" flex justify-center pt-48 pb-32">
+        <main className="flex-grow pb-48 sm:pb-64 px-4">
+          <div className="flex sm:justify-center py-36 sm:pt-48 sm:pb-32">
             <div>
+              <div className="block sm:hidden font-bold">
+                <a href="#" className="hover:text-yellow-500">
+                  ykwc.dev
+                </a>
+              </div>
+
               <h1 className="text-6xl font-bold tracking-tight">
-                You know what’s c
+                {"You know "}
+                <br className="inline-block sm:hidden" />
+                {"what‘s "}
+                <br className="inline-block sm:hidden" />c
                 <span className="transition-colors relative group hover:text-white">
                   o
                   <a
                     href="#"
-                    className="transition-colors group-hover:text-yellow-500 rounded-full text-white absolute text-xs text-right pr-1 leading-3 top-6 left-0.5 h-9 w-9"
+                    className="absolute top-6 left-0.5 h-9 w-9 transition-colors group-hover:text-yellow-500 rounded-full text-white  text-xs text-right pr-1 leading-3"
                   >
                     yk
                     <br />
@@ -81,7 +90,7 @@ export default function Home() {
                 ol?
               </h1>
 
-              <div className="font-bold">
+              <div className="hidden sm:block font-bold">
                 <p className="text-justify pl-16 relative">
                   {"y k w c "}
                   <a
@@ -97,27 +106,29 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="text-xl grid grid-cols-1 gap-1 py-24">
+          <div className="text-xl grid grid-cols-1 gap-4 sm:gap-2 py-16 sm:py-24">
             <p>
-              <span className="bg-black text-white font-bold pt-9 pl-6 pb-1 pr-1">
+              <span className="bg-black text-white font-bold pt-9 pl-1 sm:pl-6 pb-1 pr-1">
                 cool
               </span>{" "}
               is tech that makes sense,
             </p>
             <p>
-              <span className="font-bold pt-8 pl-6 pb-1 ">cool</span> is easy to
-              work with, easy to use, and
+              <span className="font-bold pt-8 pl-1 sm:pl-6 pb-1 ">cool</span> is
+              easy to work with, easy to use, and
             </p>
             <p>
-              <span className="font-bold pt-8 pl-6 pb-1 ">cool</span> is simple.
+              <span className="font-bold pt-8 pl-1 sm:pl-6 pb-1 ">cool</span> is
+              simple.
             </p>
           </div>
 
           <div className="text-xl flex justify-center py-24">
-            <p>
-              <span className="ring-black ring-4 py-4 px-2 font-bold mr-3">
+            <p className="leading-15">
+              <span className="ring-black ring-4 py-4 px-4 sm:px-2 font-bold mr-3">
                 your idea is cool,
               </span>{" "}
+              <br className="inline-block sm:hidden" />
               let's make it happen.
             </p>
           </div>
@@ -126,7 +137,9 @@ export default function Home() {
         <footer className="bg-white py-20 w-full pl-8">
           <p className="font-bold text-xl tracking-wider">ykwc.dev</p>
           <p className="text-xs">
-            © 2021 YOU KNOW WHAT'S COOL?, All Rights Reserved
+            © 2021 YOU KNOW WHAT'S COOL?,
+            <br className="inline-block sm:hidden" />
+            All Rights Reserved
           </p>
         </footer>
       </div>
