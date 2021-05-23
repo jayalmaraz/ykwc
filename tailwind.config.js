@@ -14,8 +14,6 @@ module.exports = {
   },
   variants: {
     extend: {
-      display: ["hover", "group-hover"],
-      textAlign: ["hover"],
       cursor: ["hover"],
     },
   },
