@@ -38,39 +38,21 @@ export default function Home() {
         />
 
         {/* Open Graph Images */}
-        <meta
-          property="image"
-          content="https://ykwc.dev/images/ogimage-lg.png"
-        />
-        <meta
-          property="og:image"
-          content="https://ykwc.dev/images/ogimage-lg.png"
-        />
-        <meta
-          property="og:image"
-          content="https://ykwc.dev/images/ogimage-lg.png"
-        />
+        <meta property="image" content="https://ykwc.dev/ogimage-lg.png" />
+        <meta property="og:image" content="https://ykwc.dev/ogimage-lg.png" />
+        <meta property="og:image" content="https://ykwc.dev/ogimage-lg.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta
-          property="og:image"
-          content="https://ykwc.dev/images/ogimage-m.png"
-        />
+        <meta property="og:image" content="https://ykwc.dev/ogimage-m.png" />
         <meta property="og:image:width" content="901" />
         <meta property="og:image:height" content="474" />
-        <meta
-          property="og:image"
-          content="https://ykwc.dev/images/ogimage-s.png"
-        />
+        <meta property="og:image" content="https://ykwc.dev/ogimage-s.png" />
         <meta property="og:image:width" content="601" />
         <meta property="og:image:height" content="316" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:creator" content="@jayalmaraz" />
-        <meta
-          name="twitter:image"
-          content="https://ykwc.dev/images/ogimage-lg.png"
-        />
+        <meta name="twitter:image" content="https://ykwc.dev/ogimage-lg.png" />
       </Head>
 
       <div
