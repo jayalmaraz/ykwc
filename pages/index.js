@@ -37,14 +37,12 @@ export default function Home() {
                 ol?
               </h1>
 
-              <div className="group font-bold">
+              <div className="font-bold">
                 <p className="text-justify pl-16 relative">
-                  <span className="group-hover:opacity-25 transition-opacity">
-                    {"y k w c "}
-                  </span>
+                  {"y k w c "}
                   <a
                     href="#"
-                    className="text-right right-0 absolute opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500"
+                    className="text-right right-0 absolute opacity-0 hover:opacity-100 transition-opacity hover:text-red-500"
                   >
                     ykwc.dev
                   </a>
@@ -57,7 +55,7 @@ export default function Home() {
 
           <div className="text-xl grid grid-cols-1 gap-1 py-24">
             <p>
-              <span className="bg-black text-white font-bold pt-8 pl-6 pb-1 pr-1">
+              <span className="bg-black text-white font-bold pt-9 pl-6 pb-1 pr-1">
                 cool
               </span>{" "}
               is tech that makes sense,
