@@ -63,7 +63,7 @@ export default function Home() {
         <main className="flex-grow pb-48 sm:pb-64 px-4">
           <div className="flex sm:justify-center py-36 sm:pt-48 sm:pb-32">
             <div>
-              <div className="block sm:hidden font-bold">
+              <div className="block sm:hidden sm:text-red-500 font-bold">
                 <a href="#" className="hover:text-red-500">
                   ykwc.dev
                 </a>
