@@ -64,7 +64,7 @@ export default function Home() {
           <div className="flex sm:justify-center py-36 sm:pt-48 sm:pb-32">
             <div>
               <div className="block sm:hidden font-bold">
-                <a href="#" className="hover:text-yellow-500">
+                <a href="#" className="hover:text-red-500">
                   ykwc.dev
                 </a>
               </div>
@@ -78,7 +78,7 @@ export default function Home() {
                   o
                   <a
                     href="#"
-                    className="absolute top-6 left-0.5 h-9 w-9 transition-colors group-hover:text-yellow-500 rounded-full text-white  text-xs text-right pr-1 leading-3"
+                    className="absolute top-6 left-0.5 h-9 w-9 transition-colors group-hover:text-red-500 rounded-full text-white  text-xs text-right pr-1 leading-3"
                   >
                     yk
                     <br />
@@ -95,7 +95,7 @@ export default function Home() {
                   {"y k w c "}
                   <a
                     href="#"
-                    className="text-right right-0 absolute opacity-0 hover:opacity-100 transition-opacity hover:text-yellow-500"
+                    className="text-right right-0 absolute opacity-0 hover:opacity-100 transition-opacity hover:text-red-500"
                   >
                     ykwc.dev
                   </a>
