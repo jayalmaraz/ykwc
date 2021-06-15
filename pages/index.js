@@ -64,7 +64,7 @@ export default function Home() {
           <div className="flex sm:justify-center py-36 sm:pt-48 sm:pb-32">
             <div>
               <div className="block sm:hidden sm:text-red-500 font-bold">
-                <a href="#" className="hover:text-red-500">
+                <a href="#" className="hover:text-red-500 hover:cursor-default">
                   ykwc.dev
                 </a>
               </div>
@@ -78,7 +78,7 @@ export default function Home() {
                   o
                   <a
                     href="#"
-                    className="absolute top-6 left-0.5 h-9 w-9 transition-colors group-hover:text-red-500 rounded-full text-white  text-xs text-right pr-1 leading-3"
+                    className="absolute top-6 left-0.5 h-9 w-9 transition-colors group-hover:text-red-500 rounded-full text-white  text-xs text-right pr-1 leading-3 hover:cursor-default"
                   >
                     yk
                     <br />
@@ -95,7 +95,7 @@ export default function Home() {
                   {"y k w c "}
                   <a
                     href="#"
-                    className="text-right right-0 absolute opacity-0 hover:opacity-100 transition-opacity hover:text-red-500"
+                    className="text-right right-0 absolute opacity-0 hover:opacity-100 transition-opacity hover:text-red-500 hover:cursor-default"
                   >
                     ykwc.dev
                   </a>
@@ -129,7 +129,7 @@ export default function Home() {
                 your idea is cool,
               </span>{" "}
               <br className="inline-block sm:hidden" />
-              let's make it happen.
+              let's talk soon.
             </p>
           </div>
         </main>
