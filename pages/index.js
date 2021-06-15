@@ -129,7 +129,7 @@ export default function Home() {
                 your idea is cool,
               </span>{" "}
               <br className="inline-block sm:hidden" />
-              let's talk soon.
+              coming soon.
             </p>
           </div>
         </main>
