@@ -6,7 +6,7 @@ const Privacy = () => {
       <h1 className="text-5xl font-bold">Support</h1>
 
       <p className={P_CLASSES}>
-        If you are experiencing any issues with the Openfields app of hardware
+        If you are experiencing any issues with the Openfields app or hardware
         please contact Stephen:
       </p>
 
