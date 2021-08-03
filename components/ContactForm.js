@@ -29,6 +29,7 @@ const ContactForm = () => {
 
   return (
     <form className="bg-white dark:bg-gray-800" onSubmit={handleSubmit}>
+      {/* from https://merakiui.com/ Forms */}
       <div className="max-w-3xl px-6 pt-16 pb-14 mx-auto text-center">
         <h1 className="text-6xl font-bold tracking-tight text-gray-800 dark:text-gray-100 px-6">
           Enter your referral code here
@@ -56,6 +57,7 @@ const ContactForm = () => {
         </div>
       </div>
 
+      {/* From https://merakiui.com/ Alerts */}
       <div
         className={`w-full text-white bg-${
           !loading && hasError ? "red-500" : "white"
