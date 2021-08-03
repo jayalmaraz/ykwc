@@ -20,6 +20,10 @@ module.exports = {
   variants: {
     extend: {
       cursor: ["hover"],
+      borderColor: ["hover"],
+      ringColor: ["hover"],
+      backgroundColor: ["disabled"],
+      textColor: ["disabled"],
     },
   },
   plugins: [],

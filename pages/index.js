@@ -1,5 +1,6 @@
 import Head from "next/head";
 import "tailwindcss/tailwind.css";
+import ContactForm from "../components/ContactForm";
 
 export default function Home() {
   return (
@@ -124,14 +125,26 @@ export default function Home() {
           </div>
 
           <div className="text-xl flex justify-center py-24">
-            <p className="leading-15">
-              <span className="ring-black ring-4 py-4 px-4 sm:px-2 font-bold mr-3">
+            <a
+              href="#lets-make-it-happen"
+              className="leading-15 group cursor-pointer hover:text-red-500"
+            >
+              <span className="border-solid border-black border-4 py-4 px-4 sm:px-2 font-bold mr-3 transition-colors duration-300 group-hover:border-white">
                 your idea is cool,
               </span>{" "}
               <br className="inline-block sm:hidden" />
-              coming soon.
-            </p>
+              <span className="transition-colors duration-300 group-hover:text-red-500">
+                let's make it happen.
+              </span>
+            </a>
           </div>
+
+          <section
+            id="lets-make-it-happen"
+            className="w-full py-0 sm:pt-48 sm:pb-16"
+          >
+            <ContactForm />
+          </section>
         </main>
 
         <footer className="bg-white py-20 w-full pl-8">
