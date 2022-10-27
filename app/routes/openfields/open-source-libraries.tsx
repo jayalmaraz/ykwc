@@ -1,4 +1,4 @@
-const OpenSourceLibraries = () => {
+export default function OpenfieldsOpenSourceLibraries() {
   return (
     <div className="py-4 sm:py-16 whitespace-pre-wrap font-mono">
       {`
@@ -35,6 +35,4 @@ const OpenSourceLibraries = () => {
       `}
     </div>
   );
-};
-
-export default OpenSourceLibraries;
+}
