@@ -103,22 +103,9 @@ export default function Index() {
             </div>
           </div>
 
-          <div className="text-xl grid grid-cols-1 gap-4 sm:gap-2 py-16 sm:py-24">
-            <p>
-              <span className="bg-black text-white font-bold pt-9 pl-1 sm:pl-6 pb-1 pr-1">cool</span> is tech that makes
-              sense,
-            </p>
-            <p>
-              <span className="font-bold pt-8 pl-1 sm:pl-6 pb-1 ">cool</span> is easy to work with, easy to use, and
-            </p>
-            <p>
-              <span className="font-bold pt-8 pl-1 sm:pl-6 pb-1 ">cool</span> is simple.
-            </p>
-          </div>
-
-          <div className="text-xl flex justify-center py-24">
+          <div className="text-xl flex justify-center py-20">
             <p className="leading-15">
-              <span className="ring-black ring-4 py-4 px-4 sm:px-2 font-bold mr-3">your idea is cool,</span>{' '}
+              <span className="ring-black ring-4 py-4 px-4 sm:px-2 font-bold mr-3">.dev blog,</span>{' '}
               <br className="inline-block sm:hidden" />
               coming soon.
             </p>
@@ -126,7 +113,9 @@ export default function Index() {
         </main>
 
         <footer className="bg-white py-20 w-full pl-8">
-          <p className="font-bold text-xl tracking-wider">ykwc.dev</p>
+          <a href="/" className="font-bold text-xl tracking-wider">
+            ykwc.dev
+          </a>
           <p className="text-xs">
             © 2021 YOU KNOW WHAT'S COOL?,
             <br className="inline-block sm:hidden" />
