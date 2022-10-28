@@ -104,7 +104,7 @@ export default function Index() {
           </div>
 
           <div className="text-xl flex justify-center py-20">
-            <p className="leading-15">
+            <p>
               <span className="ring-black ring-4 py-4 px-4 sm:px-2 font-bold mr-3">.dev blog,</span>{' '}
               <br className="inline-block sm:hidden" />
               coming soon.
