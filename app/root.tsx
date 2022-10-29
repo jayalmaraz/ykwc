@@ -1,5 +1,5 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import { Link, Links, LiveReload, Meta, NavLink, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
 import styles from './tailwind.css';
 
 export const links: LinksFunction = () => [
@@ -52,7 +52,48 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-red-50 to-blue-50">
+          <nav className="flex justify-between w-full py-6 px-5 gap-2 max-w-[1440px]">
+            <div className="flex">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
+                }
+              >
+                ykwc.dev
+              </NavLink>
+              <NavLink
+                to="blog"
+                className={({ isActive }) =>
+                  !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
+                }
+              >
+                Blog
+              </NavLink>
+            </div>
+
+            <div className="flex">
+              <button className="py-3 px-6 font-bold">Light</button>
+            </div>
+          </nav>
+
+          <main className="flex flex-auto w-full flex-grow max-w-[1440px] px-4 mt-8">
+            <Outlet />
+          </main>
+
+          <footer className="bg-white md:bg-transparent py-20 w-full pl-8 max-w-[1440px]">
+            <Link to="/" className="font-bold text-xl tracking-wider">
+              ykwc.dev
+            </Link>
+            <p className="text-xs">
+              © 2022 YOU KNOW WHAT'S COOL?,
+              <br className="inline-block sm:hidden" />
+              All Rights Reserved
+            </p>
+          </footer>
+        </div>
+
         <ScrollRestoration />
 
         <Scripts />
