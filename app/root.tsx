@@ -52,8 +52,8 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-red-50 to-blue-50">
-          <nav className="flex justify-between w-full py-6 px-5 gap-2 max-w-[1440px]">
+        <div className="flex flex-col w-full min-h-screen items-center bg-gradient-to-br from-red-50 to-blue-50">
+          <nav className="flex justify-between w-full py-6  gap-2 max-w-[1440px] px-8 sm:px-32">
             <div className="flex">
               <NavLink
                 to="/"
@@ -78,11 +78,11 @@ export default function App() {
             </div>
           </nav>
 
-          <main className="flex flex-auto w-full flex-grow max-w-[1440px] px-4 mt-8">
+          <main className="flex flex-auto w-full flex-grow max-w-[1440px] px-8 sm:px-32 mt-8">
             <Outlet />
           </main>
 
-          <footer className="bg-white md:bg-transparent py-20 w-full pl-8 max-w-[1440px]">
+          <footer className="bg-white md:bg-transparent py-20 w-full max-w-[1440px] px-8 sm:px-32">
             <Link to="/" className="font-bold text-xl tracking-wider">
               ykwc.dev
             </Link>
