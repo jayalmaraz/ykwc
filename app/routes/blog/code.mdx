@@ -1,0 +1,78 @@
+---
+meta:
+  title: Code Syntax Highlighting
+  description: Testing code syntax
+  date: 2022-11-07T06:05:00Z
+headers:
+  Cache-Control: no-cache
+---
+
+import { PostLayout } from '~/components/PostLayout';
+
+<PostLayout>
+
+## Pure templates
+
+```
+remix-jokes
+├── README.md
+├── app
+│   ├── entry.client.tsx
+│   ├── entry.server.tsx
+│   ├── root.tsx
+│   └── routes
+│       └── index.tsx
+├── package-lock.json
+├── package.json
+├── public
+│   └── favicon.ico
+├── remix.config.js
+├── remix.env.d.ts
+└── tsconfig.json
+```
+
+## Coding
+
+### Javascript
+
+```js
+function foo(bar) {
+  let mee = 'Hello, World!';
+
+  // Output variables
+  console.log({ mee, bar });
+
+  // Return concat
+  return `${mee} ${bar}`;
+}
+
+foo('Ligma');
+```
+
+### Typescript
+
+```ts
+type Value = {
+  bar: string;
+  mee: string;
+  value: string;
+};
+
+function foo(bar: string): Value {
+  let mee = 'Hello, World!';
+
+  // Output variables
+  console.log({ mee, bar });
+
+  // Return concat
+  return {
+    bar,
+    mee,
+    value: `${mee} ${bar}`,
+  };
+}
+
+foo('Ligma');
+```
+
+</PostLayout>

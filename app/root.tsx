@@ -1,5 +1,6 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Link, Links, LiveReload, Meta, NavLink, Outlet, Scripts, ScrollRestoration } from '@remix-run/react';
+import { RootLayout } from './components/RootLayout';
 import styles from './tailwind.css';
 
 export const links: LinksFunction = () => [
@@ -7,7 +8,7 @@ export const links: LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
   {
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap',
+    href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap',
   },
 
   // Favicon
@@ -51,46 +52,52 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-red-50">
         <div className="flex flex-col w-full min-h-screen items-center bg-gradient-to-br from-red-50 to-blue-50">
-          <nav className="flex justify-between w-full py-6  gap-2 max-w-[1440px] px-8 sm:px-32">
-            <div className="flex">
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
-                }
-              >
-                ykwc.dev
-              </NavLink>
-              <NavLink
-                to="blog"
-                className={({ isActive }) =>
-                  !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
-                }
-              >
-                Blog
-              </NavLink>
-            </div>
+          <nav className="w-full">
+            <RootLayout>
+              <div className="flex justify-between w-full py-6 gap-2">
+                <div className="flex">
+                  <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                      !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
+                    }
+                  >
+                    ykwc.dev
+                  </NavLink>
+                  <NavLink
+                    to="blog"
+                    className={({ isActive }) =>
+                      !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
+                    }
+                  >
+                    Blog
+                  </NavLink>
+                </div>
 
-            <div className="flex">
-              <button className="py-3 px-6 font-bold">Light</button>
-            </div>
+                <div className="flex">
+                  <button className="py-3 px-6 font-bold">Light</button>
+                </div>
+              </div>
+            </RootLayout>
           </nav>
 
-          <main className="flex flex-auto w-full flex-grow max-w-[1440px] px-8 sm:px-32 mt-8">
+          <main className="flex flex-col flex-grow w-full">
             <Outlet />
           </main>
 
-          <footer className="bg-white md:bg-transparent py-20 w-full max-w-[1440px] px-8 sm:px-32">
-            <Link to="/" className="font-bold text-xl tracking-wider">
-              ykwc.dev
-            </Link>
-            <p className="text-xs">
-              © 2022 YOU KNOW WHAT'S COOL?,
-              <br className="inline-block sm:hidden" />
-              All Rights Reserved
-            </p>
+          <footer className="bg-white md:bg-transparent py-20 w-full">
+            <RootLayout>
+              <Link to="/" className="font-bold text-xl tracking-wider">
+                ykwc.dev
+              </Link>
+              <p className="text-xs">
+                © 2022 YOU KNOW WHAT'S COOL?,
+                <br className="inline-block sm:hidden" />
+                All Rights Reserved
+              </p>
+            </RootLayout>
           </footer>
         </div>
 

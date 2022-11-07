@@ -1,8 +1,8 @@
-//<Head>
+import { RootLayout } from '~/components/RootLayout';
 
-export default function Index() {
+export default function Home() {
   return (
-    <div>
+    <RootLayout>
       <h1 className="text-6xl font-bold tracking-tight">
         {'You know '}
         <br className="inline-block" />
@@ -20,6 +20,6 @@ export default function Index() {
         </span>
         ol?
       </h1>
-    </div>
+    </RootLayout>
   );
 }
