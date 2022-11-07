@@ -21,7 +21,7 @@ export const links: LinksFunction = () => [
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: "ykwc.dev | You know what's cool?",
+  title: 'ykwc.dev',
   description: "ykwc.dev | You know what's cool?",
   viewport: 'width=device-width,initial-scale=1',
 
@@ -64,7 +64,7 @@ export default function App() {
                       !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
                     }
                   >
-                    ykwc.dev
+                    <h1>ykwc.dev</h1>
                   </NavLink>
                   <NavLink
                     to="blog"

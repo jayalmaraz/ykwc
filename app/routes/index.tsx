@@ -3,7 +3,7 @@ import { RootLayout } from '~/components/RootLayout';
 export default function Home() {
   return (
     <RootLayout>
-      <h1 className="text-6xl font-bold tracking-tight">
+      <h2 className="text-6xl font-bold tracking-tight">
         {'You know '}
         <br className="inline-block" />
         {'what‘s '}
@@ -19,7 +19,7 @@ export default function Home() {
           </span>
         </span>
         ol?
-      </h1>
+      </h2>
     </RootLayout>
   );
 }

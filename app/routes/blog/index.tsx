@@ -6,24 +6,40 @@ import { RootLayout } from '~/components/RootLayout';
 import * as postA from './hello-world.mdx';
 import * as postB from './code.mdx';
 
-function postFromModule(mod: any) {
-  const date = new Date(mod.attributes.meta.date);
+/**
+ *
+ * @param timestamp UTC timestamp string
+ * @returns Human readable date
+ */
+function getDateReadable(timestamp: string) {
+  const now = new Date();
+  const date = new Date(timestamp);
+  const isCurrentYear = now.getFullYear() === date.getFullYear();
+  const dayMonthReadable = date.toLocaleDateString(undefined, {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
 
+  if (isCurrentYear) {
+    return dayMonthReadable;
+  }
+
+  return `${dayMonthReadable}, ${date.toLocaleDateString(undefined, {
+    year: 'numeric',
+  })}`;
+}
+
+function postFromModule(mod: any) {
   return {
     slug: mod.filename.replace(/\.mdx?$/, ''),
     ...mod.attributes.meta,
-    date: `${date.toLocaleDateString(undefined, {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-    })}, ${date.toLocaleDateString(undefined, {
-      year: 'numeric',
-    })}`,
+    date: getDateReadable(mod.attributes.meta.date),
   };
 }
 
 export const meta: MetaFunction = () => ({
-  title: "ykwc.dev Blog | You know what's cool?",
+  title: 'ykwc.dev Blog',
   description: "ykwc.dev | You know what's cool?",
 });
 
@@ -37,7 +53,7 @@ export default function Blog() {
   return (
     <RootLayout>
       <div className="mb-12">
-        <h1 className="text-6xl font-bold tracking-tight">writing</h1>
+        <h2 className="text-6xl font-bold tracking-tight">writing</h2>
       </div>
 
       <ul className="flex flex-col w-full gap-y-3">
