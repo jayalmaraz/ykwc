@@ -87,7 +87,7 @@ article>*:not(.code-extra) {
   }
 
   pre {
-    border-radius: .375rem;
+    border-radius: .5rem;
   }
 }
 
@@ -122,12 +122,11 @@ code.hljs {
 
 .hljs ::selection,
 .hljs::selection {
-  background-color: #d69822;
-  color: #5e646f
+  background-color: #fdefd5;
 }
 
 .hljs-comment {
-  color: #5e646f
+  color: #a8abb1
 }
 
 .hljs-tag {
