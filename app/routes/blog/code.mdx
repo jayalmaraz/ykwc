@@ -11,42 +11,29 @@ import { PostLayout } from '~/components/PostLayout';
 
 <PostLayout>
 
-## Pure templates
-
-```
-remix-jokes
-├── README.md
-├── app
-│   ├── entry.client.tsx
-│   ├── entry.server.tsx
-│   ├── root.tsx
-│   └── routes
-│       └── index.tsx
-├── package-lock.json
-├── package.json
-├── public
-│   └── favicon.ico
-├── remix.config.js
-├── remix.env.d.ts
-└── tsconfig.json
-```
-
 ## Coding
 
 ### Javascript
 
+Markdown and Mdx parsing is supported via `unified`, and other remark and rehype packages. `next-mdx-remote` allows us to parse `.mdx` and `.md` files in a more flexible manner without touching webpack.
+
 ```js
-function foo(bar) {
-  let mee = 'Hello, World!';
+import { LiveReload } from '@remix-run/react';
 
-  // Output variables
-  console.log({ mee, bar });
-
-  // Return concat
-  return `${mee} ${bar}`;
+export default function App() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <title>Remix: So great, it's funny!</title>
+      </head>
+      <body>
+        Hello world
+        <LiveReload />
+      </body>
+    </html>
+  );
 }
-
-foo('Ligma');
 ```
 
 ### Typescript
@@ -73,6 +60,28 @@ function foo(bar: string): Value {
 }
 
 foo('Ligma');
+```
+
+## Pure templates
+
+Markdown and Mdx parsing is supported via `unified`, and other remark and rehype packages. `next-mdx-remote` allows us to parse `.mdx` and `.md` files in a more flexible manner without touching webpack.
+
+```
+remix-jokes
+├── README.md
+├── app
+│   ├── entry.client.tsx
+│   ├── entry.server.tsx
+│   ├── root.tsx
+│   └── routes
+│       └── index.tsx
+├── package-lock.json
+├── package.json
+├── public
+│   └── favicon.ico
+├── remix.config.js
+├── remix.env.d.ts
+└── tsconfig.json
 ```
 
 </PostLayout>

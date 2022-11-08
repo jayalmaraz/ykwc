@@ -8,26 +8,26 @@
   But we allow the styles chosen by the GitHub theme(s) below to overwrite
 */
 pre {
-  color: #adbac7;
-  background: #22272e;
+  color: #5e646f;
+  background: #fafafa;
   display: block;
   overflow-x: auto;
-  padding: 1em;
+  padding: 2rem;
+  padding-left: 2rem;
   /* color: var(--tw-prose-pre-code); */
   /* background-color: var(--tw-prose-pre-bg); */
   /* overflow-x: auto; */
   font-weight: 400;
   font-size: .875em;
-  line-height: 1.7142857;
-  margin-top: 1.7142857em;
-  margin-bottom: 1.7142857em;
-  border-radius: .375rem;
+  line-height: 1.5;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
   /* padding: .8571429em 1.1428571em; */
+
+  /* Allow code blocks to be full-width at smaller screen sizes */
 }
 
 code {
-  /* padding: 3px 5px; */
-
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
@@ -40,10 +40,71 @@ code {
 }
 
 /* 
+  Hacking the layout to allow for full-width code
+  <pre> blocks (wrapped in .code-extra divs) will be full width at smaller screen sizes.
+  We control this by either adding or removing padding, then allow the max-width parent to do the rest
+*/
+
+.ykwc-post-layout>div>div {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+article>*:not(.code-extra) {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  max-width: calc(780px + 16rem);
+}
+
+@media (min-width: theme('screens.md')) {
+  .ykwc-post-layout>div>div {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  article>*:not(.code-extra) {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+}
+
+@media (min-width: theme('screens.lg')) {
+  .ykwc-post-layout>div>div {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  article>*:not(.code-extra) {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+}
+
+@media (min-width: theme('screens.xl')) {
+  .code-extra {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  pre {
+    border-radius: .375rem;
+  }
+}
+
+/* 
   HIGHLIGHT.JS THEMES
   From https://highlightjs.org/static/demo/ 
 */
 
+/* 🌞 LIGHT THEME */
+
+/*!
+  Theme: Edge Light
+  Author: cjayross (https://github.com/cjayross)
+  License: ~ MIT (or more permissive) [via base16-schemes-source]
+  Maintainer: @highlightjs/core-team
+  Version: 2021.09.0
+*/
 pre code.hljs {
   display: block;
   overflow-x: auto;
@@ -54,6 +115,109 @@ code.hljs {
   padding: 3px 5px
 }
 
+.hljs {
+  color: #5e646f;
+  background: #fafafa
+}
+
+.hljs ::selection,
+.hljs::selection {
+  background-color: #d69822;
+  color: #5e646f
+}
+
+.hljs-comment {
+  color: #5e646f
+}
+
+.hljs-tag {
+  color: #6587bf
+}
+
+.hljs-operator,
+.hljs-punctuation,
+.hljs-subst {
+  color: #5e646f
+}
+
+.hljs-operator {
+  opacity: .7
+}
+
+.hljs-attr,
+.hljs-bullet,
+.hljs-deletion,
+.hljs-link,
+.hljs-literal,
+.hljs-name,
+.hljs-number,
+.hljs-selector-tag,
+.hljs-symbol,
+.hljs-template-variable,
+.hljs-variable,
+.hljs-variable.constant_ {
+  color: #db7070
+}
+
+.hljs-class .hljs-title,
+.hljs-title,
+.hljs-title.class_ {
+  color: #d69822
+}
+
+.hljs-strong {
+  font-weight: 700;
+  color: #d69822
+}
+
+.hljs-addition,
+.hljs-code,
+.hljs-string,
+.hljs-title.class_.inherited__ {
+  color: #7c9f4b
+}
+
+.hljs-built_in,
+.hljs-doctag,
+.hljs-keyword.hljs-atrule,
+.hljs-quote,
+.hljs-regexp {
+  color: #509c93
+}
+
+.hljs-attribute,
+.hljs-function .hljs-title,
+.hljs-section,
+.hljs-title.function_,
+.ruby .hljs-property {
+  color: #6587bf
+}
+
+.diff .hljs-meta,
+.hljs-keyword,
+.hljs-template-tag,
+.hljs-type {
+  color: #b870ce
+}
+
+.hljs-emphasis {
+  color: #b870ce;
+  font-style: italic
+}
+
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-meta .hljs-string {
+  color: #509c93
+}
+
+.hljs-meta .hljs-keyword,
+.hljs-meta-keyword {
+  font-weight: 700
+}
+
+/* 🌙 GITHUB DARK THEME */
+
 /*!
   Theme: GitHub Dark Dimmed
   Description: Dark dimmed theme as seen on github.com
@@ -63,7 +227,7 @@ code.hljs {
 
   Colors taken from GitHub's CSS
 */
-.hljs {
+/* .hljs {
   color: #adbac7;
   background: #22272e
 }
@@ -153,4 +317,4 @@ code.hljs {
 .hljs-deletion {
   color: #ffd8d3;
   background-color: #78191b
-}
+} */

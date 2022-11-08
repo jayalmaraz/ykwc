@@ -4,8 +4,8 @@ import type { PropsWithChildren } from 'react';
 function PostLayout({ children }: PropsWithChildren) {
   return (
     <div>
-      <div className="flex flex-col w-full items-center bg-white mt-3">
-        <div className=" w-full max-w-[1280px] px-8 sm:px-16 md:px-32 py-28">
+      <div className="ykwc-post-layout flex flex-col w-full items-center bg-white mt-3">
+        <div className=" w-full max-w-[1280px] py-28">
           <div className="inline-block mb-16 text-sm font-medium group transition duration-175">
             <Link to="/blog">
               <span className="text-xs">◀</span> Back to overview
@@ -13,7 +13,7 @@ function PostLayout({ children }: PropsWithChildren) {
             </Link>
           </div>
 
-          <article className="prose">{children}</article>
+          <article className="prose prose-lg max-w-none">{children}</article>
         </div>
       </div>
       {/* <div className="bg-gradient-to-b to-transparent from-white h-36" /> */}

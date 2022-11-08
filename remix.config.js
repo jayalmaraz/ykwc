@@ -14,13 +14,40 @@ module.exports = {
   // publicPath: "/build/",
 
   mdx: async (filename) => {
-    const [rehypeHighlight] = await Promise.all([
+    const [rehypeHighlight, remarkCodeExtra] = await Promise.all([
       //
       import('rehype-highlight').then((mod) => mod.default),
+      import('remark-code-extra').then((mod) => mod.default),
     ]);
 
     return {
       rehypePlugins: [rehypeHighlight],
+      remarkPlugins: [
+        [
+          remarkCodeExtra,
+          {
+            transform: {},
+            // Add a link to stackoverflow if there is one in the meta
+            // transform: (node) => ({
+            //   // after: [
+            //   //   {
+            //   //     type: 'element',
+            //   //     tagName: 'a',
+            //   //     properties: {
+            //   //       href: node.meta,
+            //   //     },
+            //   //     children: [
+            //   //       {
+            //   //         type: 'text',
+            //   //         value: 'Ligma',
+            //   //       },
+            //   //     ],
+            //   //   },
+            //   // ],
+            // }),
+          },
+        ],
+      ],
     };
   },
 };
