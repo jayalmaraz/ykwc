@@ -17,7 +17,7 @@ import { PostLayout } from '~/components/PostLayout';
 
 Markdown and Mdx parsing is supported via `unified`, and other remark and rehype packages. `next-mdx-remote` allows us to parse `.mdx` and `.md` files in a more flexible manner without touching webpack.
 
-```js
+```js[class="line-numbers"]
 import { LiveReload } from '@remix-run/react';
 
 export default function App() {
@@ -38,7 +38,7 @@ export default function App() {
 
 ### Typescript
 
-```ts
+```ts[class="line-numbers"]
 type Value = {
   bar: string;
   mee: string;
