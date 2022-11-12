@@ -60,12 +60,12 @@ export default function Blog() {
         {posts.map((post: any) => (
           <li
             key={post.slug}
-            className="bg-white ring-4 ring-red-50 ring-offset-[-4px] hover:ring-offset-4 transition-all"
+            className="bg-white rounded-lg ring-4 ring-black ring-offset-[-4px] hover:ring-offset-4 transition-all"
           >
             <Link to={post.slug}>
               <div className="py-12 px-8">
-                <div className="text-xl font-bold text-gray-300">{post.date}</div>
                 <div className="text-xl font-bold">{post.title}</div>
+                <div className="text-xl font-bold text-gray-300">{post.date}</div>
               </div>
             </Link>
           </li>

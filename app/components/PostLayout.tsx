@@ -39,49 +39,56 @@ function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOn
   return (
     <div className="ykwc-post-layout flex flex-col w-full items-center bg-white mt-3">
       <div className="w-full max-w-[1024px] py-28 flex flex-col content-center items-center">
-        <div className="w-full max-w-[821px]">
+        {/* Back button container */}
+        <div className="ykwc-post-layout-col ykwc-post-layout-pad">
           <div className="inline-block pb-16 text-sm font-bold group transition duration-175">
             <Link to="/blog">
-              <span className="text-xs">◀</span> Back to overview
+              <span className="text-xs">◀</span> Back to all posts
               <span className="mt-1 block max-w-0 group-hover:max-w-full transition-all duration-175 h-0.5 bg-black"></span>
             </Link>
           </div>
         </div>
 
-        <header className="w-full max-w-[821px] flex flex-col pb-16">
-          <h2 className="text-4xl font-bold">{title}</h2>
-          {date && <p className="text-4xl font-medium text-gray-300 mb-8">{getDateReadable(date)}</p>}
+        {/* Title and image container */}
+        <header className="w-full pb-16">
+          <div className="w-full ykwc-post-layout-col ykwc-post-layout-pad">
+            <h2 className="text-4xl font-bold">{title}</h2>
+            {date && <p className="text-4xl font-medium text-gray-300 mb-8">{getDateReadable(date)}</p>}
+          </div>
 
-          {src ? (
-            <div className="flex justify-center">
-              <img
-                className="w-full max-h-[480px] lg:max-h-[560px] object-cover rounded-xl"
-                src={src}
-                alt="Description of the mountains"
-              />
-            </div>
-          ) : null}
-
-          {photoByName && photoByUrl ? (
-            <div className="text-gray-400 text-xs flex ml-2 mt-2 mb-8 prose prose-a:text-gray-400 prose-a:font-normal max-w-none">
-              <div>
-                Photo by{' '}
-                <a target="_blank" rel="noreferrer noopener" href={photoByUrl}>
-                  {photoByName}
-                </a>{' '}
-                {photoOnName && photoOnUrl ? (
-                  <>
-                    on{' '}
-                    <a target="_blank" rel="noreferrer noopener" href={photoOnUrl}>
-                      {photoOnName}
-                    </a>
-                  </>
-                ) : null}
+          <div className="ykwc-post-layout-pad">
+            {src ? (
+              <div className="flex justify-center">
+                <img
+                  className="w-full max-h-[480px] lg:max-h-[560px] object-cover rounded-xl"
+                  src={src}
+                  alt="Description of the mountains"
+                />
               </div>
-            </div>
-          ) : null}
+            ) : null}
+
+            {photoByName && photoByUrl ? (
+              <div className="text-gray-400 text-xs flex ml-2 mt-2 mb-8 prose prose-a:text-gray-400 prose-a:font-normal max-w-none">
+                <div>
+                  Photo by{' '}
+                  <a target="_blank" rel="noreferrer noopener" href={photoByUrl}>
+                    {photoByName}
+                  </a>{' '}
+                  {photoOnName && photoOnUrl ? (
+                    <>
+                      on{' '}
+                      <a target="_blank" rel="noreferrer noopener" href={photoOnUrl}>
+                        {photoOnName}
+                      </a>
+                    </>
+                  ) : null}
+                </div>
+              </div>
+            ) : null}
+          </div>
         </header>
 
+        {/* Content */}
         <main className="prose prose-lg prose-p:text-gray-600 w-full max-w-none">{children}</main>
       </div>
     </div>

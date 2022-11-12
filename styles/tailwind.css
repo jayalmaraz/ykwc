@@ -28,19 +28,25 @@
   <pre> blocks (wrapped in .code-extra divs) will be full width at smaller screen sizes.
   We control this by either adding or removing padding, then allow the max-width parent to do the rest
 */
-
-.ykwc-post-layout>div>div,
-.ykwc-post-layout>div>header {
-  padding-left: 3rem;
-  padding-right: 3rem;
-}
-
 .ykwc-post-layout main>*:not(.code-extra) {
   padding-left: 3rem;
   padding-right: 3rem;
   max-width: 821px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Export some of that width-responsive for use in the layout */
+.ykwc-post-layout-col {
+  width: 100%;
+  max-width: 821px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ykwc-post-layout-pad {
+  padding-left: 3rem;
+  padding-right: 3rem;
 }
 
 /*
@@ -105,8 +111,13 @@ pre code {
 /* Content has wider X-padding as soon as the screen is slightly larger */
 @media (min-width: theme('screens.md')) {
 
-  .ykwc-post-layout>div>div,
+  /* .ykwc-post-layout>div>div,
   .ykwc-post-layout>div>header {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  } */
+
+  .ykwc-post-layout-pad {
     padding-left: 8rem;
     padding-right: 8rem;
   }
