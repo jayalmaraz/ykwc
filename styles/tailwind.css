@@ -2,8 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Medium.ttf");
+  font-weight: medium;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* 
+  Hacking the layout to allow for full-width code
+  <pre> blocks (wrapped in .code-extra divs) will be full width at smaller screen sizes.
+  We control this by either adding or removing padding, then allow the max-width parent to do the rest
+*/
+
+.ykwc-post-layout>div>div,
+.ykwc-post-layout>div>header {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.ykwc-post-layout main>*:not(.code-extra) {
+  padding-left: 3rem;
+  padding-right: 3rem;
+  max-width: 821px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /*
-  Override for non-highlight.js blocks
+  Simple styles for inline code
+*/
+
+p>code {
+  /* background-color: #fafafa; */
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #282828;
+}
+
+p>code::before {
+  font-weight: bolder;
+  content: "`";
+}
+
+p>code::after {
+  font-weight: bolder;
+  content: "`";
+}
+
+/*
+  Override for non-highlight.js pre/code elements (i.e. the containers)
   We bring some of the original styles provided by @tailwindcss/typography prose
   But we allow the styles chosen by the GitHub theme(s) below to overwrite
 */
@@ -12,22 +75,16 @@ pre {
   background: #fafafa;
   display: block;
   overflow-x: auto;
-  padding: 2rem;
-  padding-left: 2rem;
-  /* color: var(--tw-prose-pre-code); */
-  /* background-color: var(--tw-prose-pre-bg); */
-  /* overflow-x: auto; */
+  padding: 3rem;
+  padding-left: 3rem;
   font-weight: 400;
   font-size: .875em;
   line-height: 1.5;
   margin-top: 3rem;
   margin-bottom: 3rem;
-  /* padding: .8571429em 1.1428571em; */
-
-  /* Allow code blocks to be full-width at smaller screen sizes */
 }
 
-code {
+pre code {
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
@@ -39,24 +96,13 @@ code {
   line-height: inherit;
 }
 
-/* 
-  Hacking the layout to allow for full-width code
-  <pre> blocks (wrapped in .code-extra divs) will be full width at smaller screen sizes.
-  We control this by either adding or removing padding, then allow the max-width parent to do the rest
-*/
-
-.ykwc-post-layout>div>div,
-.ykwc-post-layout>div>header {
-  padding-left: 2rem;
-  padding-right: 2rem;
+/* Ensure code-extra wrappers are always filling all of the H-space that they have */
+.code-extra {
+  width: 100%;
 }
 
-.ykwc-post-layout main>*:not(.code-extra) {
-  padding-left: 2rem;
-  padding-right: 2rem;
-  max-width: calc(640px + 16rem);
-}
 
+/* Content has wider X-padding as soon as the screen is slightly larger */
 @media (min-width: theme('screens.md')) {
 
   .ykwc-post-layout>div>div,
@@ -71,28 +117,16 @@ code {
   }
 }
 
+/* Give the code-extra wrappers some padding & rounded to 'snap' them in at larger sizes */
 @media (min-width: theme('screens.lg')) {
 
-  .ykwc-post-layout>div>div,
-  .ykwc-post-layout>div>header {
-    padding-left: 8rem;
-    padding-right: 8rem;
-  }
-
-  .ykwc-post-layout main>*:not(.code-extra) {
-    padding-left: 8rem;
-    padding-right: 8rem;
-  }
-}
-
-@media (min-width: theme('screens.xl')) {
   .code-extra {
     padding-left: 8rem;
     padding-right: 8rem;
   }
 
   pre {
-    border-radius: .5rem;
+    border-radius: .75rem;
   }
 }
 

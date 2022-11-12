@@ -5,11 +5,6 @@ import styles from './tailwind.css';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
-  { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap',
-  },
 
   // Favicon
   { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },

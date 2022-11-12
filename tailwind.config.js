@@ -1,3 +1,20 @@
+const fallbackSans = [
+  'ui-sans-serif',
+  'system-ui',
+  '-apple-system',
+  'BlinkMacSystemFont',
+  '"Segoe UI"',
+  'Roboto',
+  '"Helvetica Neue"',
+  'Arial',
+  '"Noto Sans"',
+  'sans-serif',
+  '"Apple Color Emoji"',
+  '"Segoe UI Emoji"',
+  '"Segoe UI Symbol"',
+  '"Noto Color Emoji"',
+];
+
 const disabledCss = {
   'blockquote p:first-of-type::before': false,
   'blockquote p:last-of-type::after': false,
@@ -12,12 +29,12 @@ const disabledCss = {
 module.exports = {
   content: ['./app/**/*.{ts,tsx,jsx,js}'],
   theme: {
-    fontFamily: {
-      sans: ['"Montserrat"', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
-      mono: ['monospace'],
-    },
     extend: {
+      fontFamily: {
+        sans: ['"DM_Sans"', ...fallbackSans],
+        // serif: ['Merriweather', 'serif'],
+        // mono: ['monospace'],
+      },
       lineHeight: {
         15: '3.5rem',
       },

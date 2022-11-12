@@ -7,7 +7,7 @@ export default function Home() {
         <h2 className="text-6xl font-bold tracking-tight">
           {'You know '}
           <br className="inline-block" />
-          {'what‘s '}
+          {'what’s '}
           <br className="inline-block" />c
           <span className="transition-colors relative group hover:text-white">
             o
