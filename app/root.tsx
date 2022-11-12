@@ -83,9 +83,9 @@ export default function App() {
             </RootLayout>
           </nav>
 
-          <main className="flex flex-col flex-grow w-full">
+          <div className="flex flex-col flex-grow w-full">
             <Outlet />
-          </main>
+          </div>
 
           <footer className="bg-white md:bg-transparent py-20 w-full">
             <RootLayout>

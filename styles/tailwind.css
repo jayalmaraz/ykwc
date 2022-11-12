@@ -45,36 +45,41 @@ code {
   We control this by either adding or removing padding, then allow the max-width parent to do the rest
 */
 
-.ykwc-post-layout>div>div {
+.ykwc-post-layout>div>div,
+.ykwc-post-layout>div>header {
   padding-left: 2rem;
   padding-right: 2rem;
 }
 
-article>*:not(.code-extra) {
+.ykwc-post-layout main>*:not(.code-extra) {
   padding-left: 2rem;
   padding-right: 2rem;
-  max-width: calc(780px + 16rem);
+  max-width: calc(640px + 16rem);
 }
 
 @media (min-width: theme('screens.md')) {
-  .ykwc-post-layout>div>div {
+
+  .ykwc-post-layout>div>div,
+  .ykwc-post-layout>div>header {
     padding-left: 8rem;
     padding-right: 8rem;
   }
 
-  article>*:not(.code-extra) {
+  .ykwc-post-layout main>*:not(.code-extra) {
     padding-left: 8rem;
     padding-right: 8rem;
   }
 }
 
 @media (min-width: theme('screens.lg')) {
-  .ykwc-post-layout>div>div {
+
+  .ykwc-post-layout>div>div,
+  .ykwc-post-layout>div>header {
     padding-left: 8rem;
     padding-right: 8rem;
   }
 
-  article>*:not(.code-extra) {
+  .ykwc-post-layout main>*:not(.code-extra) {
     padding-left: 8rem;
     padding-right: 8rem;
   }

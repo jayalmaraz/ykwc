@@ -24,7 +24,16 @@ module.exports = {
       typography: {
         // Disable the default code block styling so that we can overwrite with hljs styles via tailwind.css
         // Thanks https://building.hellonext.co/blog/disable-tailwind-prose-code
-        DEFAULT: { css: disabledCss },
+        DEFAULT: {
+          css: {
+            ...disabledCss,
+            a: {
+              '&:hover': {
+                'text-decoration': 'none',
+              },
+            },
+          },
+        },
         sm: { css: disabledCss },
         lg: { css: disabledCss },
         xl: { css: disabledCss },

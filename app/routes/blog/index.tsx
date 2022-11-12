@@ -52,9 +52,9 @@ export default function Blog() {
 
   return (
     <RootLayout>
-      <div className="mb-12">
+      <header className="mb-12">
         <h2 className="text-6xl font-bold tracking-tight">writing</h2>
-      </div>
+      </header>
 
       <ul className="flex flex-col w-full gap-y-3">
         {posts.map((post: any) => (
