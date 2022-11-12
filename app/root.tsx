@@ -51,12 +51,12 @@ export default function App() {
         <div className="flex flex-col w-full min-h-screen items-center bg-gradient-to-br from-red-50 to-blue-50">
           <nav className="w-full">
             <RootLayout>
-              <div className="flex justify-between w-full py-6 gap-2">
-                <div className="flex">
+              <div className="flex justify-between w-full py-6">
+                <div className="flex gap-3">
                   <NavLink
                     to="/"
                     className={({ isActive }) =>
-                      !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
+                      !isActive ? 'py-3 px-6 font-bold hover:text-red-200' : 'ring-black ring-4 py-3 px-6 font-bold'
                     }
                   >
                     <h1>ykwc.dev</h1>
@@ -64,7 +64,7 @@ export default function App() {
                   <NavLink
                     to="blog"
                     className={({ isActive }) =>
-                      !isActive ? 'py-3 px-6 font-bold' : 'ring-black ring-4 py-3 px-6 font-bold'
+                      !isActive ? 'py-3 px-6 font-bold hover:text-red-200' : 'ring-black ring-4 py-3 px-6 font-bold'
                     }
                   >
                     Blog
