@@ -53,10 +53,10 @@ export default function Blog() {
   return (
     <RootLayout>
       <header className="mb-12">
-        <h2 className="text-6xl font-bold tracking-tight">writing</h2>
+        <h2 className="text-6xl font-bold">writing</h2>
       </header>
 
-      <ul className="flex flex-col w-full gap-y-3">
+      <ul className="flex flex-col w-full gap-y-2">
         {posts.map((post: any) => (
           <li
             key={post.slug}

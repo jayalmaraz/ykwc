@@ -84,12 +84,11 @@ export default function App() {
 
           <footer className="bg-white md:bg-transparent py-20 w-full">
             <RootLayout>
-              <Link to="/" className="font-bold text-xl tracking-wider">
+              <Link to="/" className="font-bold text-xl">
                 ykwc.dev
               </Link>
               <p className="text-xs">
-                © 2022 YOU KNOW WHAT'S COOL?,
-                <br className="inline-block sm:hidden" />
+                © 2022 YOU KNOW WHAT'S COOL?, <br className="inline-block sm:hidden" />
                 All Rights Reserved
               </p>
             </RootLayout>

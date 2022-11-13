@@ -40,8 +40,8 @@ function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOn
     <div className="ykwc-post-layout flex flex-col w-full items-center bg-white mt-3">
       <div className="w-full max-w-[1024px] py-28 flex flex-col content-center items-center">
         {/* Back button container */}
-        <div className="ykwc-post-layout-col ykwc-post-layout-pad">
-          <div className="inline-block pb-16 text-sm font-bold group transition duration-175">
+        <div className="ykwc-post-layout-col ykwc-post-layout-pad pb-16">
+          <div className="inline-block text-sm font-bold group transition duration-175">
             <Link to="/blog">
               <span className="text-xs">◀</span> Back to all posts
               <span className="mt-1 block max-w-0 group-hover:max-w-full transition-all duration-175 h-0.5 bg-black"></span>

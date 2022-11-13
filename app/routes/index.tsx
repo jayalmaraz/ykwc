@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <RootLayout>
       <header>
-        <h2 className="text-6xl font-bold tracking-tight">
+        <h2 className="text-6xl font-bold">
           {'You know '}
           <br className="inline-block" />
           {'what’s '}

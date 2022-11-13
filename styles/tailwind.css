@@ -29,8 +29,8 @@
   We control this by either adding or removing padding, then allow the max-width parent to do the rest
 */
 .ykwc-post-layout main>*:not(.code-extra) {
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   max-width: 821px;
   margin-left: auto;
   margin-right: auto;
@@ -45,18 +45,19 @@
 }
 
 .ykwc-post-layout-pad {
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 /*
-  Simple styles for inline code
+  Simple custom styles for inline code
 */
 
 p>code {
   /* background-color: #fafafa; */
   padding: 0 4px;
   border-radius: 4px;
+  font-size: .875em;
   font-weight: bold;
   color: #282828;
 }
@@ -69,6 +70,29 @@ p>code::before {
 p>code::after {
   font-weight: bolder;
   content: "`";
+}
+
+/* 
+  Simple custom styles for block quotes
+*/
+blockquote {
+  border: none;
+}
+
+blockquote>* {
+  color: #5e646f;
+  background: #fafafa;
+  padding: 2rem 2rem;
+  font-size: .875em;
+  border-radius: .75rem;
+}
+
+blockquote>*::before {
+  content: "“";
+}
+
+blockquote>*::after {
+  content: "”";
 }
 
 /*
@@ -107,21 +131,20 @@ pre code {
   width: 100%;
 }
 
+/* Content has wider X-padding as soon as the screen is slightly larger */
+@media (min-width: theme('screens.sm')) {
+
+  .ykwc-post-layout-pad,
+  .ykwc-post-layout main>*:not(.code-extra) {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
 
 /* Content has wider X-padding as soon as the screen is slightly larger */
 @media (min-width: theme('screens.md')) {
 
-  /* .ykwc-post-layout>div>div,
-  .ykwc-post-layout>div>header {
-    padding-left: 8rem;
-    padding-right: 8rem;
-  } */
-
-  .ykwc-post-layout-pad {
-    padding-left: 8rem;
-    padding-right: 8rem;
-  }
-
+  .ykwc-post-layout-pad,
   .ykwc-post-layout main>*:not(.code-extra) {
     padding-left: 8rem;
     padding-right: 8rem;
