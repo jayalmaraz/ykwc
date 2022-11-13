@@ -37,14 +37,14 @@ type Props = PropsWithChildren & {
 
 function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOnName, photoOnUrl, children }: Props) {
   return (
-    <div className="ykwc-post-layout flex flex-col w-full items-center bg-white mt-3">
+    <div className="ykwc-post-layout flex flex-col w-full items-center bg-white dark:bg-zinc-800 mt-3">
       <div className="w-full max-w-[1024px] py-28 flex flex-col content-center items-center">
         {/* Back button container */}
         <div className="ykwc-post-layout-col ykwc-post-layout-pad pb-16">
           <div className="inline-block text-sm font-bold group transition duration-175">
             <Link to="/blog">
               <span className="text-xs">◀</span> Back to all posts
-              <span className="mt-1 block max-w-0 group-hover:max-w-full transition-all duration-175 h-0.5 bg-black"></span>
+              <span className="mt-1 block max-w-0 group-hover:max-w-full transition-all duration-175 h-0.5 bg-black dark:bg-white"></span>
             </Link>
           </div>
         </div>
@@ -89,7 +89,9 @@ function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOn
         </header>
 
         {/* Content */}
-        <main className="prose prose-lg prose-p:text-gray-600 w-full max-w-none">{children}</main>
+        <main className="prose prose-lg w-full max-w-none text-gray-600 dark:text-neutral-300 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-neutral-300 dark:prose-strong:text-neutral-300 dark:prose-a:text-white ">
+          {children}
+        </main>
       </div>
     </div>
   );

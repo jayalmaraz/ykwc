@@ -41,14 +41,28 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
+  function handleToggleTheme() {
+    const htmlElement = document.getElementsByTagName('html')[0];
+    if (htmlElement.className === 'dark') {
+      htmlElement.className = 'light';
+      return;
+    }
+    htmlElement.className = 'dark';
+  }
+
   return (
     <html lang="en">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="bg-red-50">
-        <div className="flex flex-col w-full min-h-screen items-center bg-gradient-to-br from-red-50 to-blue-50">
+      <body className="bg-red-50 dark:bg-[#39393E] relative">
+        {/* Dark mode background layers */}
+        <div className="hidden dark:block absolute inset-0 bg-gray-900" />
+        <div className="hidden dark:block absolute inset-0 bg-gradient-to-br from-orange-200 to-red-200 opacity-[17.5%]" />
+
+        {/* Main background + content container */}
+        <div className="relative flex flex-col w-full min-h-screen items-center bg-gradient-to-br from-red-50 to-blue-50 dark:bg-none dark:text-white">
           <nav className="w-full">
             <RootLayout>
               <div className="flex justify-between w-full py-6">
@@ -56,7 +70,9 @@ export default function App() {
                   <NavLink
                     to="/"
                     className={({ isActive }) =>
-                      !isActive ? 'py-3 px-6 font-bold hover:text-red-200' : 'ring-black ring-4 py-3 px-6 font-bold'
+                      !isActive
+                        ? 'py-3 px-6 font-bold hover:text-red-200 dark:hover:text-pink-300'
+                        : 'ring-black dark:ring-white ring-4 py-3 px-6 font-bold'
                     }
                   >
                     <h1>ykwc.dev</h1>
@@ -64,7 +80,9 @@ export default function App() {
                   <NavLink
                     to="blog"
                     className={({ isActive }) =>
-                      !isActive ? 'py-3 px-6 font-bold hover:text-red-200' : 'ring-black ring-4 py-3 px-6 font-bold'
+                      !isActive
+                        ? 'py-3 px-6 font-bold hover:text-red-200 dark:hover:text-pink-300'
+                        : 'ring-black dark:ring-white ring-4 py-3 px-6 font-bold'
                     }
                   >
                     Blog
@@ -72,7 +90,19 @@ export default function App() {
                 </div>
 
                 <div className="flex">
-                  <button className="py-3 px-6 font-bold">Light</button>
+                  <button
+                    className="hidden dark:block py-3 px-6 font-bold hover:text-pink-300"
+                    onClick={handleToggleTheme}
+                  >
+                    Light
+                  </button>
+
+                  <button
+                    className="block dark:hidden py-3 px-6 font-bold hover:text-red-200"
+                    onClick={handleToggleTheme}
+                  >
+                    Dark
+                  </button>
                 </div>
               </div>
             </RootLayout>
