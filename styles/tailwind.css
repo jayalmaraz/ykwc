@@ -53,7 +53,8 @@
   Simple custom styles for inline code
 */
 
-p>code {
+p>code,
+li>code {
   padding: 0 4px;
   border-radius: 4px;
   font-size: .875em;
@@ -61,16 +62,19 @@ p>code {
   color: #282828;
 }
 
-.dark p>code {
+.dark p>code,
+.dark li>code {
   color: #ffffff;
 }
 
-p>code::before {
+p>code::before,
+li>code::before {
   font-weight: bolder;
   content: "`";
 }
 
-p>code::after {
+p>code::after,
+li>code::after {
   font-weight: bolder;
   content: "`";
 }
