@@ -5,6 +5,7 @@ import { RootLayout } from '~/components/RootLayout';
 
 import * as postA from './hello-world.mdx';
 import * as postB from './code.mdx';
+import * as postC from './supabase-magic-link-auth-in-remix.mdx';
 
 /**
  *
@@ -44,7 +45,7 @@ export const meta: MetaFunction = () => ({
 });
 
 export async function loader() {
-  return json([postB, postA].map(postFromModule));
+  return json([postC, postB, postA].map(postFromModule));
 }
 
 export default function Blog() {

@@ -1,0 +1,77 @@
+---
+meta:
+  title: Supabase Magic Link Auth in Remix
+  description: Supabase Magic Link Auth in Remix
+  date: 2022-11-20T08:00:00Z
+headers:
+  Cache-Control: no-cache
+---
+
+import { PostLayout } from '~/components/PostLayout';
+
+<PostLayout 
+  title={meta.title}
+  date={meta.date}
+  src="https://images.unsplash.com/photo-1668259678563-95f9a18e2323?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+  photoByName="Mak"
+  photoByUrl="https://unsplash.com/@mak_jp?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+  photoOnName="Unsplash"
+  photoOnUrl="https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+>
+
+I recently started using [Remix](https://remix.run/). I used Remix to build this blog. I've loved every minute so far. Something that I got stuck on, when working on another project, was getting [Supabase's Magic Link](https://supabase.com/docs/reference/javascript/auth-signinwithotp) authentication to work in a fresh Remix app. Despite my best efforts, I couldn't write anything in Remix to successfully consume the magic link and result in an authenticated Remix session. So I got to hacking.
+
+## The “solution”
+
+Whilst writing this blog, I searched around one last time to double-check for more elegant solutions than mine. I came across [a discussion](https://github.com/supabase/supabase/discussions/3762) where someone links to an example repo that is functional; it works with Supabase Magic Links. Unfortunately that solution relies entirely on a React Context, which is okay, but means that the it can't work without Javascript. Remix can do better, we can do better, we just have to `#useThePlatform`.
+
+To get our version working, we need to stretch the Supabase Magic Link feature a little bit. The trick is moving away from the strictly email-based magic link, and instead leaning on the generic One Time Password (OTP) system that Supabase runs under the hood; similar to how their magic text verification code would work.
+
+---
+
+```js
+// TODO: Fix MDX to make all MD links open in new tab
+// TODO: Analytics
+// TODO: Link to my twitter
+// TODO: Investigate the GitHub discussion and see if there is actually a straight forward working version now...
+```
+
+- Full disclaimer, the working version of this is more of a workaround
+- Subject to brittleness and becoming out of date as it doesn't strictly use the built in Supabase magic link system
+
+## Configuring Supabase
+
+- More broadly known as: One Time Password (OTP) authentication
+- It looks something like this by default: `https://{{...}}.supabase.co/auth/v1/verify?token={{...}}&type=magiclink&redirect_to=http://localhost:3000`
+- It does this behind the scenes: ...
+- But it doesn't play nicely with Remix. As outlined in [this clumsy discussion](https://github.com/supabase/supabase/discussions/3762), Supabase auth won't really be humming unless you force it to with some dank ass hooks (see the `useUser` hook). The [example repo](https://github.com/VictorPeralta/supabase-remix-auth/blob/main/app/routes/index.tsx) that dude links to uses tons of Javascript in general, and we ain't 'bout that.
+- BUT, Supabase can give you the information required to do a password-less sign is
+- UX is identical to the vanilla magic link
+- Here is how to set it up on the Supabase side: ...
+
+## Creating the Remix auth session
+
+- Then it's just a standard Remix auth session
+- Here is how to set it up in Remix: ...
+
+## Appendix
+
+Supabase Confirm signup email template
+
+```html
+<h2>Confirm your signup</h2>
+
+<p>Follow this link to confirm your user:</p>
+<p><a href="{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup">Confirm email</a></p>
+```
+
+Supabase Magic Link email template
+
+```html
+<h2>Magic Link</h2>
+
+<p>Follow this link to login:</p>
+<p><a href="{{ .SiteURL }}/verify?email={{ .Email }}&token={{ .Token }}&type=magiclink">Confirm email</a></p>
+```
+
+</PostLayout>
