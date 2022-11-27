@@ -9,25 +9,386 @@ headers:
 
 import { PostLayout } from '~/components/PostLayout';
 
-<PostLayout 
-  title={meta.title}
-  date={meta.date}
-  src="https://images.unsplash.com/photo-1668259678563-95f9a18e2323?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
-  photoByName="Mak"
-  photoByUrl="https://unsplash.com/@mak_jp?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-  photoOnName="Unsplash"
-  photoOnUrl="https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+<PostLayout
+title={meta.title}
+date={meta.date}
+src="https://images.unsplash.com/photo-1668259678563-95f9a18e2323?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+photoByName="Mak"
+photoByUrl="https://unsplash.com/@mak_jp?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+photoOnName="Unsplash"
+photoOnUrl="https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+
 >
 
-I recently started using [Remix](https://remix.run/). I used Remix to build this blog. I've loved every minute so far. Something that I got stuck on, when working on another project, was getting [Supabase's Magic Link](https://supabase.com/docs/reference/javascript/auth-signinwithotp) authentication to work in a fresh Remix app. Despite my best efforts, I couldn't write anything in Remix to successfully consume the magic link and result in an authenticated Remix session. So I got to hacking.
+I recently started using [Remix](https://remix.run/). I've started using Remix in a few side projects. I used Remix to build this blog. I've loved every minute so far. Something that I got stuck on, when working on a different project, was using [Supabase's Magic Link](https://supabase.com/docs/reference/javascript/auth-signinwithotp) authentication in a fresh Remix app. Despite my best efforts, I couldn't write anything in Remix (without relying on Javascript) to that could consume the default magic link and create an authenticated Remix session. So I got to hacking.
 
-## The “solution”
+## What's wrong with the default Supabase Magic Link?
 
-Whilst writing this blog, I searched around one last time to double-check for more elegant solutions than mine. I came across [a discussion](https://github.com/supabase/supabase/discussions/3762) where someone links to an example repo that is functional; it works with Supabase Magic Links. Unfortunately that solution relies entirely on a React Context, which is okay, but means that the it can't work without Javascript. Remix can do better, we can do better, we just have to `#useThePlatform`.
+Let's talk about the Supabase One Time Password (OTP) sign in function, `auth.signInWithOTP`. By default, passing an `email` into the function will result in Supabase to generating an email and delivering it to the given email address. The email will include a "Magic Link", which will look something like this:
 
-To get our version working, we need to stretch the Supabase Magic Link feature a little bit. The trick is moving away from the strictly email-based magic link, and instead leaning on the generic One Time Password (OTP) system that Supabase runs under the hood; similar to how their magic text verification code would work.
+```
+https://gffwplsndbpktzwpihso.supabase.co/auth/v1/verify?token=502743743a29d0422ed0c8ee97adeb6d55ae7f13af2f0684aa445c62&type=magiclink&redirect_to=http://localhost:3000
+```
+
+Let's unpack what's going on. We have a link to `gffwplsndbpktzwpihso` (our Supabase project ID) on `supabase.co/auth/v1/verify` (the Supabase authentication service), where we are passing information for `token`, `type`, and `redirect_to` URL. From this we can infer that the Supabase auth service is doing some work based on the `type`, while consuming the `token` to verify the link (is it valid? has it already been used? has it expired? etc.) before `redirect`ing back `to` our app with the authenticated state. Great, so why doesn't that _just work_ with a Remix app?
+
+The problem is the "authenticated state". Supabase expects us to handle this with Javascript by using the `onAuthStateChange` listener wrapped in a `useEffect` to catch the "magic" and store the session in a `Context`. Those are a lot of Javascript concepts; not very Remix! Let's take a look at the Remix solution.
+
+## The Remix solution
+
+To get things running, we're going to create our own magic link. We know that we don't want to use the out-of-the box magic link because it relies on Javascript to work. But we still want the user to be able to click a "magic" link via email, and subsequently be signed up/signed in. To create our solution we need to do two things:
+
+1. Customise the Supabase Authentication Email Templates, and
+2. Implement an authentication verification handler
+
+There are two (2) Supabase emails that are critical for sign-up/sign-in: _Confirm signup_ and _Magic Link_. Your original Supabase email templates will always include an anchor tag that features the `.ConfirmationURL` message variable, which looks something like this:
+
+```html
+<p><a href="{{ .ConfirmationURL }}">Confirm email</a></p>
+```
+
+We need to swap out the `href` and design our own URL using the individual parts of that make up the original. Our solution looks like this:
+
+```
+   Your app URL      Our verification path           Authentication type
+         /             /                                          \
+        /             /                                            \
+       v             v                                              v
+{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup
+                                      ^                   ^
+                                     /                    /
+                                    /                    /
+                              Their email          Supabase token
+```
+
+All of the variables beginning with a `.` (`.SiteURL`, `.Email`, and `.Token`) are inserted by Supabase when the email is dispatched. Slightly different, but just as essential, the authentication type (`type=signup` or `type=magiclink`) is something that we need to hardcode in the email template. The type is used by our verification handler, later. Finally the verification path (`/auth/verify` in this example) is where we point for the actual verification to occur.
+
+If we take our customised link and insert it into the _Confirm signup_ Email Template:
+
+```html
+<h2>Confirm your signup</h2>
+
+<p>Follow this link to confirm your user:</p>
+<p><a href="{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup">Confirm email</a></p>
+```
+
+And then similarly into the _Magic Link_ Email Template:
+
+```html
+<h2>Magic Link</h2>
+
+<p>Follow this link to login:</p>
+<p><a href="{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=magiclink">Confirm email</a></p>
+```
+
+With the custom email templates done, all that's left is to write our own small authentication flow in Remix.
+
+## Remix
+
+Our authentication system is very standard. We need a simple sign in page (`index.tsx`), and a profile page to show our user profile we're signed in (`profile.tsx`). The 'magic link' side of things is handled by a single verification page (`verify.tsx`) which we direct to from the email that Supabase sends our user. We also have a basic confirmation message page (`confirm.tsx`) to tell the user to go and check their email after signing in. Our Supabase client is wrapped Everything is then wrapped up in a stock standard Remix authentication session (`session.server.ts`).
+
+```
+app
+├── entry.client.tsx
+├── entry.server.tsx
+├── root.tsx
+├── routes
+│    ├── auth
+│    │    ├── 📄 confirm.tsx
+│    │    └── 📄 verify.tsx
+│    ├── 📄 profile.tsx
+│    └── 📄 index.tsx
+└── utils
+     ├── 📄 session.server.ts
+     └── 📄 supabase.ts
+```
+
+Let's go through the code snippets for each file needed for the magic link verification to work. These are _NOT_ the complete files, only the important parts are included. It's assumed that you already have experience working with Remix, that you understand the basics of using `loader` and `action` functions, and that you're familiar with session authentication in Remix using cookies.
+
+> The full example repo can be found [here](https://github.com/jayalmaraz) !TODO: LINK TO GITHUB REPOSITORY CONTAINING EXAMPLE PROJECT
+
+First make sure you have your utilities set up:
+
+<details>
+  <summary>📄 app/utils/session.server.ts</summary>
+  <div>
+
+    ```ts
+    // ├── 📄 app/utils/session.server.ts
+
+    import { createCookieSessionStorage, redirect } from '@remix-run/node';
+
+    const REDIRECT_UNAUTHORIZED = '/';
+    const REDIRECT_AUTHORIZED = '/profile';
+
+    const sessionSecret = process.env.SESSION_SECRET;
+    if (!sessionSecret) {
+      throw new Error('SESSION_SECRET must be set');
+    }
+
+    const storage = createCookieSessionStorage({
+      cookie: {
+        name: 'app_session',
+        // normally you want this to be `secure: true`
+        // but that doesn't work on localhost for Safari
+        // https://web.dev/when-to-use-local-https/
+        secure: process.env.NODE_ENV === 'production',
+        secrets: [sessionSecret],
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 30,
+        httpOnly: true,
+      },
+    });
+
+    async function createUserSession(userId: string, redirectTo: string = REDIRECT_AUTHORIZED) {
+      const session = await storage.getSession();
+      session.set('userId', userId);
+      return redirect(redirectTo, {
+        headers: {
+          'Set-Cookie': await storage.commitSession(session),
+        },
+      });
+    }
+
+    function getUserSession(request: Request) {
+      return storage.getSession(request.headers.get('Cookie'));
+    }
+
+    async function getUserId(request: Request) {
+      const session = await getUserSession(request);
+      const userId = session.get('userId');
+      if (!userId || typeof userId !== 'string') return null;
+      return userId;
+    }
+
+    /**
+     * Clear the active session and redirect
+     * @returns Redirect
+     */
+    async function logout(request: Request) {
+      const session = await getUserSession(request);
+      return redirect(REDIRECT_UNAUTHORIZED, {
+        headers: {
+          'Set-Cookie': await storage.destroySession(session),
+        },
+      });
+    }
+
+    export { createUserSession, getUserId, logout };
+    ```
+
+  </div>
+</details>
+
+<details>
+  <summary>📄 app/utils/supabase.ts</summary>
+  <div>
+
+    ```ts
+    // └── 📄 app/utils/supabase.ts
+
+    import {createClient} from '@supabase/supabase-js';
+
+    const supabase = createClient(process.env.PUBLIC_SUPABASE_URL!, process.env.PUBLIC_SUPABASE_ANON_KEY!);
+
+    export default supabase;
+    ```
+
+  </div>
+</details>
+
+Then create a basic sign in form to take an email address as input, and call the `signInWithOtp` function in the submit action:
+
+```tsx
+// └── 📄 app/routes/index.tsx
+
+import type { ActionFunction } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
+import { Form } from '@remix-run/react';
+import supabase from '~/utils/supabase';
+
+export const action: ActionFunction = async ({ request }) => {
+  // Get the email value from the sign in form
+  const formData = await request.formData();
+  const email = formData.get('email');
+
+  // Supabase submit email to One Time Password (OTP) auth
+  await supabase.auth.signInWithOtp({ email });
+
+  // Redirect to a "check your email" screen
+  return redirect('/auth/confirm');
+};
+
+export default function Index() {
+  return (
+    <div>
+      <h1>Supabase Magic Link x Remix</h1>
+      <Form method="post">
+        <input placeholder="Email" name="email" type="email" />
+        <button type="submit">Login</button>
+      </Form>
+    </div>
+  );
+}
+```
+
+Next you'll want a really simple, completely static, message screen to direct the user to if the sign in form submits successfully:
+
+```tsx
+// ├── 📄 app/routes/auth/confirm.tsx
+
+export default function ConfirmPage() {
+  return (
+    <div>
+      <h1>Supabase Magic Link x Remix</h1>
+      <p>Check your email for a verification link</p>
+    </div>
+  );
+}
+```
+
+And now the fun part. This is our "magic" verification page, where we direct the user when they click on the link in the email. This page grabs the info from the URL params (which we already set in the Supabase email templates) and calls the Supabase `verifyOtp` function. If the verification is successful we create a session:
+
+```tsx
+// └── 📄 app/routes/auth/verify.tsx
+
+import type { LoaderFunction } from '@remix-run/node';
+import { json } from '@remix-run/node';
+import { createUserSession } from '~/utils/session.server';
+import supabase from '~/utils/supabase';
+
+export const loader: LoaderFunction = async ({ request }) => {
+  // Get data from URL (our custom magic link)
+  const urlObject = new URL(url);
+  const email = urlObject.searchParams.get('email');
+  const token = urlObject.searchParams.get('token');
+  const type = urlObject.searchParams.get('type');
+
+  // Supabase verify One Time Password (OTP)
+  const { data } = await supabase.auth.verifyOtp({ email, type, token });
+  const userId = data?.user?.id;
+
+  if (!userId) {
+    // Return an error if verification fails
+    return json({ error: 'Unauthorized 💩' });
+  }
+
+  // Create session from resulting user ID
+  return createUserSession(userId, '/profile');
+};
+
+export default function VerifyPage() {
+  return (
+    <div>
+      <h1>Supabase Magic Link x Remix</h1>
+      <p>Verifying, please wait...</p>
+    </div>
+  );
+}
+```
+
+For housekeeping, here is an example of a basic profile page so that you can see the user ID attached to the session. It also provides a simple logout action to clear the session:
+
+```tsx
+// ├── 📄 app/routes/profile.tsx
+
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
+import { Form, useLoaderData } from '@remix-run/react';
+import { getUserId, logout } from '~/utils/session.server';
+
+export const action: ActionFunction = async ({ request }) => {
+  return logout(request);
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request);
+
+  if (!userId) {
+    console.log('No session 💩');
+    throw redirect('/');
+  }
+
+  return json({ userId });
+};
+
+export default function ProfilePage() {
+  const { userId } = useLoaderData();
+
+  return (
+    <div>
+      <h1>Supabase Magic Link x Remix</h1>
+      <p>You're signed in with user ID: {userId}</p>
+
+      <Form method="post">
+        <button>Logout</button>
+      </Form>
+    </div>
+  );
+}
+```
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+## Aside: Relying on Javascript
+
+While writing this blog, I searched around one last time to double-check for more elegant solutions than mine. I came across [a discussion](https://github.com/supabase/supabase/discussions/3762) where someone links to an example repo that is functional – it works with Supabase Magic Links. Unfortunately that solution relies entirely on a React Context, which is okay, but means that the it doesn't work without Javascript. We can do better.
+
+To get our version working, we need to stretch the Supabase Magic Link feature a little bit. The trick is moving away from the strictly email-based magic link, and instead leaning on the generic One Time Password system that Supabase uses under the hood – similar to how their SMS verification code would work. We just need to send our own magic verification code.
 
 ---
+
+```ts
+type: 'signup' | 'invite' | 'magiclink' | 'email_change' | 'recovery' | 'sms' | 'phone_change';
+```
+
+```
+   what to do (delete, change...)
+      /
+     /      how many times
+    /         /
+   v         v
+{operator}{count}{motion}
+                    ^
+                   /
+                  /
+           where to perform
+             the action
+```
+
+### Authentication Verification Handler
+
+The very first time that `signInWithOTP` is called for a given email, the link will actually include `type=signup`. This is to inform the Supabase auth handler that it needs to verify the link, create
+
+```
+https://gffwplsnddpktzwpihso.supabase.co/auth/v1/verify?token=502743743a29d0422ed0c8ee97adeb6d55ae7f13af2f0684aa445c62&type=signup&redirect_to=http://localhost:3000
+```
+
+Confirm signup
+
+```
+{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup
+```
+
+Magic Link
+
+```
+{{ .SiteURL }}/verify?email={{ .Email }}&token={{ .Token }}&type=magiclink
+```
 
 ```js
 // TODO: Fix MDX to make all MD links open in new tab
@@ -59,19 +420,13 @@ To get our version working, we need to stretch the Supabase Magic Link feature a
 Supabase Confirm signup email template
 
 ```html
-<h2>Confirm your signup</h2>
 
-<p>Follow this link to confirm your user:</p>
-<p><a href="{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup">Confirm email</a></p>
 ```
 
 Supabase Magic Link email template
 
 ```html
-<h2>Magic Link</h2>
 
-<p>Follow this link to login:</p>
-<p><a href="{{ .SiteURL }}/verify?email={{ .Email }}&token={{ .Token }}&type=magiclink">Confirm email</a></p>
 ```
 
 </PostLayout>
