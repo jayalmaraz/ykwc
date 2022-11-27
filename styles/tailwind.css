@@ -28,7 +28,7 @@
   <pre> blocks (wrapped in .code-extra divs) will be full width at smaller screen sizes.
   We control this by either adding or removing padding, then allow the max-width parent to do the rest
 */
-.ykwc-post-layout main>*:not(.code-extra) {
+.ykwc-post-layout main>*:not(.code-extra):not(details) {
   padding-left: 2rem;
   padding-right: 2rem;
   max-width: 821px;
@@ -37,14 +37,16 @@
 }
 
 /* Export some of that width-responsive for use in the layout */
-.ykwc-post-layout-col {
+.ykwc-post-layout-col,
+summary {
   width: 100%;
   max-width: 821px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.ykwc-post-layout-pad {
+.ykwc-post-layout-pad,
+summary {
   padding-left: 2rem;
   padding-right: 2rem;
 }
@@ -96,7 +98,8 @@ blockquote>* {
 
 .dark blockquote>* {
   color: #ffffff !important;
-  background: #383838;
+  /* background: #282828; */
+  background: rgb(47, 47, 51);
 }
 
 blockquote>*::before {
@@ -108,13 +111,43 @@ blockquote>*::after {
 }
 
 /*
+  Simple custom styles for details
+*/
+details {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+summary {
+  margin-top: .75rem;
+}
+
+summary:hover {
+  cursor: pointer;
+}
+
+details pre {
+  margin-top: 0.5rem;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #dedede;
+  padding-top: 2rem;
+  border-radius: .75rem;
+}
+
+.dark details pre {
+  border-color: #2d323a;
+}
+
+/*
   Override for non-highlight.js pre/code elements (i.e. the containers)
   We bring some of the original styles provided by @tailwindcss/typography prose
   But we allow the styles chosen by the GitHub theme(s) below to overwrite
 */
 pre {
   color: #5e646f;
-  background: #fafafa;
+  background: #f4f2f2;
+  /* background: #fafafa; */
   display: block;
   overflow-x: auto;
   padding: 3rem;
@@ -126,9 +159,11 @@ pre {
   margin-bottom: 3rem;
 }
 
+
+
 .dark pre {
   color: #adbac7;
-  background: #22272e;
+  background: #151c27;
 }
 
 pre code {
@@ -151,8 +186,9 @@ pre code {
 /* Content has wider X-padding as soon as the screen is slightly larger */
 @media (min-width: theme('screens.sm')) {
 
+  summary,
   .ykwc-post-layout-pad,
-  .ykwc-post-layout main>*:not(.code-extra) {
+  .ykwc-post-layout main>*:not(.code-extra):not(details) {
     padding-left: 3rem;
     padding-right: 3rem;
   }
@@ -161,8 +197,9 @@ pre code {
 /* Content has wider X-padding as soon as the screen is slightly larger */
 @media (min-width: theme('screens.md')) {
 
+  summary,
   .ykwc-post-layout-pad,
-  .ykwc-post-layout main>*:not(.code-extra) {
+  .ykwc-post-layout main>*:not(.code-extra):not(details) {
     padding-left: 8rem;
     padding-right: 8rem;
   }
@@ -207,7 +244,7 @@ code.hljs {
 
 .hljs {
   color: #5e646f;
-  background: #fafafa
+  background: #f4f2f2;
 }
 
 .hljs ::selection,
@@ -318,7 +355,8 @@ code.hljs {
 */
 .dark .hljs {
   color: #adbac7;
-  background: #22272e
+  /* background: #22272e; */
+  background: #151c27;
 }
 
 .dark .hljs-doctag,

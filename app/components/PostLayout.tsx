@@ -89,7 +89,7 @@ function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOn
         </header>
 
         {/* Content */}
-        <main className="prose prose-lg w-full max-w-none text-gray-600 dark:text-neutral-300 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-neutral-300 dark:prose-strong:text-neutral-300 dark:prose-a:text-white ">
+        <main className="prose prose-lg w-full max-w-none text-gray-600 dark:text-neutral-300 dark:prose-headings:text-white prose-p:text-gray-600 dark:prose-p:text-neutral-300 dark:prose-strong:text-neutral-300 dark:prose-a:text-white">
           {children}
         </main>
       </div>
