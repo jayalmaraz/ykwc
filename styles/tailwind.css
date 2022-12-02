@@ -216,6 +216,16 @@ pre code {
   pre {
     border-radius: .75rem;
   }
+
+  [data-rehype-pretty-code-title] {
+    border-top-left-radius: .75rem;
+    border-top-right-radius: .75rem;
+  }
+
+  [data-rehype-pretty-code-title]~pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }
 
 /*  */
@@ -223,8 +233,30 @@ pre code {
 /* FUCK AROUND AND FIND OUT */
 /*  */
 
-[data-rehype-pretty-code-fragment] {
-  /* background-color: red; */
+[data-rehype-pretty-code-title] {
+  color: #9c9898;
+  background: #f4f2f2;
+  font-family: monospace;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  font-weight: 400;
+  font-size: .75em;
+  line-height: 1;
+  margin-top: 3rem;
+}
+
+.dark [data-rehype-pretty-code-title] {
+  color: #5e646f;
+  background: #151c27;
+}
+
+[data-rehype-pretty-code-title]::before {
+  content: "├── 📄 ";
+}
+
+[data-rehype-pretty-code-title]~pre {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .line {
@@ -279,18 +311,6 @@ code[data-line-numbers]>.line::before {
   -ms-user-select: none;
   /* Internet Explorer/Edge */
 
-}
-
-
-code[data-line-numbers]>.line::before::-moz-selection {
-  /* Code for Firefox */
-  color: red;
-  background: yellow;
-}
-
-code[data-line-numbers]>.line::before::selection {
-  color: red;
-  background: yellow;
 }
 
 .dark *[data-rehype-pretty-code-title][data-theme='light'],
