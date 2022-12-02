@@ -113,11 +113,6 @@ blockquote>*::after {
 /*
   Simple custom styles for details
 */
-details {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
 summary {
   margin-top: .75rem;
 }
@@ -257,6 +252,16 @@ pre code {
 [data-rehype-pretty-code-title]~pre {
   margin-top: 0;
   padding-top: 0;
+}
+
+[data-code-file] {
+  margin-top: -1.25rem;
+  margin-bottom: 3rem;
+}
+
+[data-code-file] summary {
+  font-family: monospace;
+  font-size: .75em;
 }
 
 .line {
