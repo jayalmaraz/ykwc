@@ -1,4 +1,30 @@
-// const { remarkMdxFrontmatter } = require('remark-mdx-frontmatter');
+const fs = require('fs');
+
+const rehypePrettyCodeOptions = {
+  theme: {
+    // light: 'slack-ochin',
+    // light: 'min-light',
+    // light: 'light-plus',
+    // light: 'github-light',
+
+    light: JSON.parse(fs.readFileSync(require.resolve('./themes/OneLight.json'), 'utf-8')),
+    dark: 'github-dark-dimmed',
+  },
+  onVisitLine(node) {
+    // Prevent lines from collapsing in `display: grid` mode, and
+    // allow empty lines to be copy/pasted
+    if (node.children.length === 0) {
+      node.children = [{ type: 'text', value: ' ' }];
+    }
+  },
+  // Feel free to add classNames that suit your docs
+  onVisitHighlightedLine(node) {
+    node.properties.className.push('highlighted');
+  },
+  onVisitHighlightedWord(node) {
+    node.properties.className = ['word'];
+  },
+};
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
@@ -14,14 +40,10 @@ module.exports = {
   // publicPath: "/build/",
 
   mdx: async (filename) => {
-    const [rehypeHighlight, remarkCodeExtra] = await Promise.all([
-      import('rehype-highlight').then((mod) => mod.default),
-      import('remark-code-extra').then((mod) => mod.default),
-    ]);
+    const [rehypePrettyCode] = await Promise.all([import('rehype-pretty-code').then((mod) => mod.default)]);
 
     return {
-      rehypePlugins: [rehypeHighlight],
-      remarkPlugins: [[remarkCodeExtra, { transform: {} }]],
+      rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
     };
   },
 };
