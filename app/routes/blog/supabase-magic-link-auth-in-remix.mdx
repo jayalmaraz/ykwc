@@ -26,11 +26,17 @@ I recently started using [Remix](https://remix.run/). I've started using Remix i
 
 Let's talk about the Supabase One Time Password (OTP) sign in function, `auth.signInWithOTP`. By default, passing an `email` into the function will result in Supabase to generating an email and delivering it to the given email address. The email will include a "Magic Link", which will look something like this:
 
-```
+```text
 https://gffwplsndbpktzwpihso.supabase.co/auth/v1/verify?token=502743743a29d0422ed0c8ee97adeb6d55ae7f13af2f0684aa445c62&type=magiclink&redirect_to=http://localhost:3000
 ```
 
-Let's unpack what's going on. We have a link to `gffwplsndbpktzwpihso` (our Supabase project ID) on `supabase.co/auth/v1/verify` (the Supabase authentication service), where we are passing information for `token`, `type`, and `redirect_to` URL. From this we can infer that the Supabase auth service is doing some work based on the `type`, while consuming the `token` to verify the link (is it valid? has it already been used? has it expired? etc.) before `redirect`ing back `to` our app with the authenticated state. Great, so why doesn't that _just work_ with a Remix app?
+Let's unpack what's going on:
+
+- `https://gffwplsndbpktzwpihso` – Supabase project URL
+- `/supabase.co/auth/v1/verify` – path to auth service
+- `token`, `type`, and `redirect_to` – data for auth service
+
+From this we can infer that the Supabase auth service is doing some work based on the `type`. It consumes the `token` to verify the link (is it valid? has it already been used? has it expired? etc.) before `redirect`ing back `to` our app with the authenticated state. Great, so why doesn't that _just work_ with a Remix app?
 
 The problem is the "authenticated state". Supabase expects us to handle this with Javascript by using the `onAuthStateChange` listener wrapped in a `useEffect` to catch the "magic" and store the session in a `Context`. Those are a lot of Javascript concepts; not very Remix! Let's take a look at the Remix solution.
 
@@ -38,8 +44,10 @@ The problem is the "authenticated state". Supabase expects us to handle this wit
 
 To get things running, we're going to create our own magic link. We know that we don't want to use the out-of-the box magic link because it relies on Javascript to work. But we still want the user to be able to click a "magic" link via email, and subsequently be signed up/signed in. To create our solution we need to do two things:
 
-1. Customise the Supabase Authentication Email Templates, and
-2. Implement an authentication verification handler
+1. Customise the Supabase Authentication Email Templates – our own magic link!
+2. Implement an OTP verification handler – our own little auth service!
+
+## 1. Our own magic link (Supabase)
 
 There are two (2) Supabase emails that are critical for sign-up/sign-in: _Confirm signup_ and _Magic Link_. Your original Supabase email templates will always include an anchor tag that features the `.ConfirmationURL` message variable, which looks something like this:
 
@@ -49,19 +57,23 @@ There are two (2) Supabase emails that are critical for sign-up/sign-in: _Confir
 
 We need to swap out the `href` and design our own URL using the individual parts of that make up the original. Our solution looks like this:
 
+```html
+<p><a href="{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup">Confirm email</a></p>
 ```
-   Your app URL      Our verification path           Authentication type
+
+All of the variables beginning with a `.` (`.SiteURL`, `.Email`, and `.Token`) are inserted by Supabase when the email is dispatched. Slightly different, but just as essential, the authentication type (`type=signup` or `type=magiclink`) is something that we need to hardcode in the email template. The type is used by our verification handler, later. Finally the verification path (`/auth/verify` in this example) is where we point for the actual verification to occur.
+
+```text
+   Your app URL      Our verification path           Supabase auth type
          /             /                                          \
         /             /                                            \
        v             v                                              v
 {{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=signup
                                       ^                   ^
-                                     /                    /
-                                    /                    /
-                              Their email          Supabase token
+                                     /                   /
+                                    /                   /
+                              User's email         Supabase token
 ```
-
-All of the variables beginning with a `.` (`.SiteURL`, `.Email`, and `.Token`) are inserted by Supabase when the email is dispatched. Slightly different, but just as essential, the authentication type (`type=signup` or `type=magiclink`) is something that we need to hardcode in the email template. The type is used by our verification handler, later. Finally the verification path (`/auth/verify` in this example) is where we point for the actual verification to occur.
 
 If we take our customised link and insert it into the _Confirm signup_ Email Template:
 
@@ -83,11 +95,11 @@ And then similarly into the _Magic Link_ Email Template:
 
 With the custom email templates done, all that's left is to write our own small authentication flow in Remix.
 
-## Remix
+## 1. Our own little auth service (Remix)
 
-Our authentication system is very standard. We need a simple sign in page (`index.tsx`), and a profile page to show our user profile we're signed in (`profile.tsx`). The 'magic link' side of things is handled by a single verification page (`verify.tsx`) which we direct to from the email that Supabase sends our user. We also have a basic confirmation message page (`confirm.tsx`) to tell the user to go and check their email after signing in. Our Supabase client is wrapped Everything is then wrapped up in a stock standard Remix authentication session (`session.server.ts`).
+Our authentication system is _very_ standard. 80% of the code in this example is just boilerplate Remix. In terms of routes, we'll need a simple sign in page, and then a profile page to show when we're signed in. The 'magic link' side of things is handled by a verification route, which we direct the user to via our custom link. We also have a basic confirmation message page to tell the user to go and check their email after signing in. Everything is then wrapped up in a stock standard Remix authentication session, which uses the Supabase client to call the sign in and verify functions.
 
-```
+```text
 app
 ├── entry.client.tsx
 ├── entry.server.tsx
@@ -100,144 +112,96 @@ app
 │    └── 📄 index.tsx
 └── utils
      ├── 📄 session.server.ts
-     └── 📄 supabase.ts
+     └── 📄 supabase.server.ts
 ```
 
 Let's go through the code snippets for each file needed for the magic link verification to work. These are _NOT_ the complete files, only the important parts are included. It's assumed that you already have experience working with Remix, that you understand the basics of using `loader` and `action` functions, and that you're familiar with session authentication in Remix using cookies.
 
 > The full example repo can be found [here](https://github.com/jayalmaraz) !TODO: LINK TO GITHUB REPOSITORY CONTAINING EXAMPLE PROJECT
 
-First make sure you have your utilities set up:
+First get your server side utilities setup.
 
-<details>
-  <summary>📄 app/utils/session.server.ts</summary>
-  <div>
+```ts showLineNumbers title="app/utils/supabase.server.ts"
+import { createClient } from '@supabase/supabase-js';
 
-    ```ts
-    // ├── 📄 app/utils/session.server.ts
+const supabase = createClient(
+  // get these from your Supabase project and add them to your .env file
+  process.env.PUBLIC_SUPABASE_URL!,
+  process.env.PUBLIC_SUPABASE_ANON_KEY!
+);
 
-    import { createCookieSessionStorage, redirect } from '@remix-run/node';
+export default supabase;
+```
 
-    const REDIRECT_UNAUTHORIZED = '/';
-    const REDIRECT_AUTHORIZED = '/profile';
+```ts showLineNumbers title="app/utils/session.server.ts (snippet ✂️)"
+import type { EmailOtpType } from '@supabase/supabase-js';
+import supabase from './supabase';
 
-    const sessionSecret = process.env.SESSION_SECRET;
-    if (!sessionSecret) {
-      throw new Error('SESSION_SECRET must be set');
-    }
+type LoginForm = {
+  email: string;
+};
 
-    const storage = createCookieSessionStorage({
-      cookie: {
-        name: 'app_session',
-        // normally you want this to be `secure: true`
-        // but that doesn't work on localhost for Safari
-        // https://web.dev/when-to-use-local-https/
-        secure: process.env.NODE_ENV === 'production',
-        secrets: [sessionSecret],
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 30,
-        httpOnly: true,
-      },
-    });
+async function login({ email }: LoginForm) {
+  const { data, error } = await supabase.auth.signInWithOtp({ email });
+  if (!data || error) {
+    return null;
+  }
+  return data;
+}
 
-    async function createUserSession(userId: string, redirectTo: string = REDIRECT_AUTHORIZED) {
-      const session = await storage.getSession();
-      session.set('userId', userId);
-      return redirect(redirectTo, {
-        headers: {
-          'Set-Cookie': await storage.commitSession(session),
-        },
-      });
-    }
+type VerifyParams = {
+  email: string;
+  token: string;
+  type: EmailOtpType;
+};
 
-    function getUserSession(request: Request) {
-      return storage.getSession(request.headers.get('Cookie'));
-    }
+async function verify({ email, type, token }: VerifyParams) {
+  const { data, error } = await supabase.auth.verifyOtp({ email, type, token });
+  const userId = data.user?.id;
+  if (error || !userId || typeof userId !== 'string') {
+    return null;
+  }
+  return userId;
+}
 
-    async function getUserId(request: Request) {
-      const session = await getUserSession(request);
-      const userId = session.get('userId');
-      if (!userId || typeof userId !== 'string') return null;
-      return userId;
-    }
+// ...
 
-    /**
-     * Clear the active session and redirect
-     * @returns Redirect
-     */
-    async function logout(request: Request) {
-      const session = await getUserSession(request);
-      return redirect(REDIRECT_UNAUTHORIZED, {
-        headers: {
-          'Set-Cookie': await storage.destroySession(session),
-        },
-      });
-    }
-
-    export { createUserSession, getUserId, logout };
-    ```
-
-  </div>
-</details>
-
-<details>
-  <summary>📄 app/utils/supabase.ts</summary>
-  <div>
-
-    ```ts
-    // └── 📄 app/utils/supabase.ts
-
-    import {createClient} from '@supabase/supabase-js';
-
-    const supabase = createClient(process.env.PUBLIC_SUPABASE_URL!, process.env.PUBLIC_SUPABASE_ANON_KEY!);
-
-    export default supabase;
-    ```
-
-  </div>
-</details>
+export { login, verify };
+```
 
 Then create a basic sign in form to take an email address as input, and call the `signInWithOtp` function in the submit action:
 
-```tsx
-// └── 📄 app/routes/index.tsx
-
+```ts showLineNumbers title="app/routes/index.tsx (snippet ✂️)"
 import type { ActionFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
-import { Form } from '@remix-run/react';
-import supabase from '~/utils/supabase';
+import { json, redirect } from '@remix-run/node';
+import { login } from '~/utils/session.server';
 
 export const action: ActionFunction = async ({ request }) => {
-  // Get the email value from the sign in form
+  // get the email value from the sign in form
   const formData = await request.formData();
   const email = formData.get('email');
 
-  // Supabase submit email to One Time Password (OTP) auth
-  await supabase.auth.signInWithOtp({ email });
+  if (!email || typeof email !== 'string') {
+    return json({ error: 'Form error 💩' });
+  }
 
-  // Redirect to a "check your email" screen
+  // sign in with email
+  const data = await login({ email });
+
+  if (!data) {
+    return json({ error: 'Supabase error 💩' });
+  }
+
+  // redirect to "check your email" screen
   return redirect('/auth/confirm');
 };
 
-export default function Index() {
-  return (
-    <div>
-      <h1>Supabase Magic Link x Remix</h1>
-      <Form method="post">
-        <input placeholder="Email" name="email" type="email" />
-        <button type="submit">Login</button>
-      </Form>
-    </div>
-  );
-}
+// ...
 ```
 
 Next you'll want a really simple, completely static, message screen to direct the user to if the sign in form submits successfully:
 
-```tsx
-// ├── 📄 app/routes/auth/confirm.tsx
-
+```ts showLineNumbers title="app/routes/auth/confirm.tsx"
 export default function ConfirmPage() {
   return (
     <div>
@@ -250,66 +214,66 @@ export default function ConfirmPage() {
 
 And now the fun part. This is our "magic" verification page, where we direct the user when they click on the link in the email. This page grabs the info from the URL params (which we already set in the Supabase email templates) and calls the Supabase `verifyOtp` function. If the verification is successful we create a session:
 
-```tsx
-// └── 📄 app/routes/auth/verify.tsx
-
+```ts showLineNumbers title="app/routes/auth/verify.tsx (snippet ✂️)"
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { createUserSession } from '~/utils/session.server';
-import supabase from '~/utils/supabase';
+import invariant from 'tiny-invariant';
+import { createUserSession, verify } from '~/utils/session.server';
 
-export const loader: LoaderFunction = async ({ request }) => {
-  // Get data from URL (our custom magic link)
+function getUrlParams(url: string) {
   const urlObject = new URL(url);
   const email = urlObject.searchParams.get('email');
   const token = urlObject.searchParams.get('token');
-  const type = urlObject.searchParams.get('type');
 
-  // Supabase verify One Time Password (OTP)
-  const { data } = await supabase.auth.verifyOtp({ email, type, token });
-  const userId = data?.user?.id;
+  // ensure that type is present and a correct value
+  const type: 'signup' | 'magiclink' | null = urlObject.searchParams.get('type') as any;
+  invariant(type, 'Invalid type'); // We use tiny-invariant to make type narrowing easier
 
-  if (!userId) {
-    // Return an error if verification fails
-    return json({ error: 'Unauthorized 💩' });
+  // ensure that email and token are present
+  if (typeof email !== 'string' || typeof token !== 'string') {
+    throw new Error('Bad params');
   }
 
-  // Create session from resulting user ID
-  return createUserSession(userId, '/profile');
+  return { email, token, type };
+}
+
+export const loader: LoaderFunction = async ({ request }) => {
+  try {
+    // get magic link information from URL
+    const { email, token, type } = getUrlParams(request.url);
+
+    // verify magic link
+    const userId = await verify({ email, token, type });
+    if (!userId) {
+      throw new Error('Authentication failed');
+    }
+
+    // create session from resulting user ID
+    return createUserSession(userId, '/profile');
+  } catch (e: any) {
+    return json({ error: 'Unable to verify magic link 💩' });
+  }
 };
 
-export default function VerifyPage() {
-  return (
-    <div>
-      <h1>Supabase Magic Link x Remix</h1>
-      <p>Verifying, please wait...</p>
-    </div>
-  );
-}
+// ...
 ```
 
 For housekeeping, here is an example of a basic profile page so that you can see the user ID attached to the session. It also provides a simple logout action to clear the session:
 
-```tsx
-// ├── 📄 app/routes/profile.tsx
-
+```ts showLineNumbers title="app/routes/profile.tsx"
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
-import { getUserId, logout } from '~/utils/session.server';
+import { logout, requireUserId } from '~/utils/session.server';
 
+// this should be a separate route so that it can be reused
 export const action: ActionFunction = async ({ request }) => {
   return logout(request);
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getUserId(request);
-
-  if (!userId) {
-    console.log('No session 💩');
-    throw redirect('/');
-  }
-
+  // this handles the redirect-on-fail for us
+  const userId = await requireUserId(request);
   return json({ userId });
 };
 
@@ -329,7 +293,7 @@ export default function ProfilePage() {
 }
 ```
 
-```
+```text
 
 
 
@@ -343,6 +307,10 @@ export default function ProfilePage() {
 
 
 ```
+
+x
+
+````
 
 ## Aside: Relying on Javascript
 
@@ -354,7 +322,7 @@ To get our version working, we need to stretch the Supabase Magic Link feature a
 
 ```ts
 type: 'signup' | 'invite' | 'magiclink' | 'email_change' | 'recovery' | 'sms' | 'phone_change';
-```
+````
 
 ```
    what to do (delete, change...)
@@ -395,6 +363,7 @@ Magic Link
 // TODO: Analytics
 // TODO: Link to my twitter
 // TODO: Investigate the GitHub discussion and see if there is actually a straight forward working version now...
+// TODO: Remove ~/ paths from imports (i.e. make no assumption about tsconfig)
 ```
 
 - Full disclaimer, the working version of this is more of a workaround
