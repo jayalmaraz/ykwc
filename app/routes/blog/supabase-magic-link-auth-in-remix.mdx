@@ -282,7 +282,7 @@ Then create a basic sign in form to take an email address as input, and call the
 import type { ActionFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Form, useActionData } from '@remix-run/react';
-import { login } from '~/utils/session.server';
+import { login } from '../utils/session.server';
 
 export const action: ActionFunction = async ({ request }) => {
   // get the email value from the sign in form
@@ -341,7 +341,7 @@ import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
-import { createUserSession, verify } from '~/utils/session.server';
+import { createUserSession, verify } from '../../utils/session.server';
 
 function getUrlParams(url: string) {
   const urlObject = new URL(url);
@@ -398,7 +398,7 @@ For housekeeping, here is an example of a basic profile page so that you can see
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
-import { logout, requireUserId } from '~/utils/session.server';
+import { logout, requireUserId } from '../utils/session.server';
 
 // this should be a separate route so that it can be reused
 export const action: ActionFunction = async ({ request }) => {
