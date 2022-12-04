@@ -52,6 +52,22 @@ summary {
 }
 
 /*
+  Link headings
+*/
+h2 a {
+  color: inherit !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  text-decoration: none !important;
+}
+
+h2 a:hover {
+  cursor: pointer !important;
+  /* text-decoration: underline !important; */
+  opacity: .9;
+}
+
+/*
   Simple custom styles for inline code
 */
 

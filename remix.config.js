@@ -40,10 +40,18 @@ module.exports = {
   // publicPath: "/build/",
 
   mdx: async (filename) => {
-    const [rehypePrettyCode] = await Promise.all([import('rehype-pretty-code').then((mod) => mod.default)]);
+    const [rehypePrettyCode, rehypeSlug, rehypeAutolinkHeadings] = await Promise.all([
+      import('rehype-pretty-code').then((mod) => mod.default),
+      import('rehype-slug').then((mod) => mod.default),
+      import('rehype-autolink-headings').then((mod) => mod.default),
+    ]);
 
     return {
-      rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
+      rehypePlugins: [
+        [rehypePrettyCode, rehypePrettyCodeOptions],
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+      ],
     };
   },
 };
