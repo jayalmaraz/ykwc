@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react';
-import type { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren } from 'react';
 
 /**
  *
@@ -99,7 +99,7 @@ function PostLayout({ title, path, date, src, photoByName, photoByUrl, photoOnNa
           {children}
 
           {/* Signature */}
-          <div className="border-t-2 border-pink-50 mt-16 pt-16 pb-16 ">
+          <div className="border-t-2 border-pink-50 dark:border-opacity-20 mt-16 pt-16 pb-16 ">
             <p>
               Hey, thanks for reading! My name is Jay and I'm a software dev from Brisbane, Australia. Feel free to{' '}
               <a href={getTwitterShareUrl(path)} target="_blank" rel="noopener noreferrer">

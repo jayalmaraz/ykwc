@@ -78,7 +78,7 @@ export default function App() {
                     <h1>ykwc.dev</h1>
                   </NavLink>
                   <NavLink
-                    to="blog"
+                    to="/blog"
                     className={({ isActive }) =>
                       !isActive
                         ? 'py-3 px-6 font-bold hover:text-red-200 dark:hover:text-pink-300'
@@ -121,6 +121,18 @@ export default function App() {
                 © 2022 YOU KNOW WHAT'S COOL?, <br className="inline-block sm:hidden" />
                 All Rights Reserved
               </p>
+
+              <div className="mt-6 flex">
+                <div className="font-bold text-gray-400">Sitemap</div>
+                <ul className="ml-2">
+                  <Link to="/" className="px-1 hover:text-red-200 dark:hover:text-pink-300">
+                    Home
+                  </Link>
+                  <Link to="/blog" className="px-1 hover:text-red-200 dark:hover:text-pink-300">
+                    Blog
+                  </Link>
+                </ul>
+              </div>
             </RootLayout>
           </footer>
         </div>
