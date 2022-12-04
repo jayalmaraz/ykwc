@@ -40,10 +40,11 @@ module.exports = {
   // publicPath: "/build/",
 
   mdx: async (filename) => {
-    const [rehypePrettyCode, rehypeSlug, rehypeAutolinkHeadings] = await Promise.all([
+    const [rehypePrettyCode, rehypeSlug, rehypeAutolinkHeadings, rehypeAccessibleEmojis] = await Promise.all([
       import('rehype-pretty-code').then((mod) => mod.default),
       import('rehype-slug').then((mod) => mod.default),
       import('rehype-autolink-headings').then((mod) => mod.default),
+      import('rehype-accessible-emojis').then((mod) => mod.rehypeAccessibleEmojis),
     ]);
 
     return {
@@ -51,6 +52,7 @@ module.exports = {
         [rehypePrettyCode, rehypePrettyCodeOptions],
         rehypeSlug,
         [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+        rehypeAccessibleEmojis,
       ],
     };
   },

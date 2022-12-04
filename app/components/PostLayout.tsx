@@ -111,7 +111,13 @@ function PostLayout({ title, path, date, src, photoByName, photoByUrl, photoOnNa
               </a>
               .
             </p>
-            <p>Hope you found this useful, helpful, interesting, or entertaining ❤️</p>
+            <p>
+              Hope you found this useful, helpful, interesting, or entertaining{' '}
+              <span role="img" aria-label="red heart">
+                ❤️
+              </span>
+              ️
+            </p>
           </div>
         </main>
       </div>
