@@ -24,18 +24,24 @@ function getDateReadable(date: Date) {
   })}`;
 }
 
+function getTwitterShareUrl(path: string) {
+  const twitterText = `I found this [useful | helpful | interesting | entertaining], via @jayalmaraz`;
+  const postUrl = `https://ykwc.dev/blog/${path ?? ''}`;
+  return `https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(twitterText)}`;
+}
+
 type Props = PropsWithChildren & {
   title: string;
+  path: string;
   date?: Date;
   src?: string;
-  footer?: ReactNode;
   photoByName?: string;
   photoByUrl?: string;
   photoOnName?: string;
   photoOnUrl?: string;
 };
 
-function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOnName, photoOnUrl, children }: Props) {
+function PostLayout({ title, path, date, src, photoByName, photoByUrl, photoOnName, photoOnUrl, children }: Props) {
   return (
     <div className="ykwc-post-layout flex flex-col w-full items-center bg-white dark:bg-zinc-800 mt-3">
       <div className="w-full max-w-[1024px] py-28 flex flex-col content-center items-center">
@@ -91,6 +97,22 @@ function PostLayout({ title, date, src, footer, photoByName, photoByUrl, photoOn
         {/* Content */}
         <main className="prose prose-lg w-full max-w-none text-gray-600 dark:text-neutral-300 dark:prose-headings:text-white prose-p:text-gray-600 prose-a:text-pink-400 dark:prose-p:text-neutral-300 dark:prose-strong:text-neutral-300 dark:prose-a:text-pink-300">
           {children}
+
+          {/* Signature */}
+          <div className="border-t-2 border-pink-50 mt-16 pt-16 pb-16 ">
+            <p>
+              Hey, thanks for reading! My name is Jay and I'm a software dev from Brisbane, Australia. Feel free to{' '}
+              <a href={getTwitterShareUrl(path)} target="_blank" rel="noopener noreferrer">
+                share this post on Twitter
+              </a>
+              , or reach out directly{' '}
+              <a href="https://twitter.com/jayalmaraz" target="_blank" rel="noopener noreferrer">
+                @jayalmaraz
+              </a>
+              .
+            </p>
+            <p>Hope you found this useful, helpful, interesting, or entertaining ❤️</p>
+          </div>
         </main>
       </div>
     </div>
