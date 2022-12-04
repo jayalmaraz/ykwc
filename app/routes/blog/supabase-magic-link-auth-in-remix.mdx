@@ -21,7 +21,7 @@ photoOnUrl="https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral
 
 >
 
-I recently started using [Remix](https://remix.run/). I'm using Remix in a few side projects and I used Remix to build this blog. I've loved it so far. Something that I got stuck on, when working on a different project, was using [Supabase's Magic Link](https://supabase.com/docs/reference/javascript/auth-signinwithotp) authentication in a fresh Remix app. I couldn't find any way in Remix (without relying on Javascript) to use Supabase's Magic Link to create an authenticated session. So I started digging.
+I recently started using <a href="https://remix.run/" target="_blank" rel="noopener noreferrer">Remix</a>. I'm using Remix in a few side projects and I used Remix to build this blog. I've loved it so far. Something that I got stuck on, when working on a different project, was using <a href="https://supabase.com/docs/reference/javascript/auth-signinwithotp" target="_blank" rel="noopener noreferrer">Supabase's Magic Link authentication</a> in a fresh Remix app. I couldn't find any way in Remix (without relying on Javascript) to use Supabase's Magic Link to create an authenticated session. So I started digging.
 
 ## Why doesn't the default Supabase Magic Link work?
 
@@ -118,9 +118,7 @@ app
      └── 📄 supabase.server.ts
 ```
 
-Now let's look at the code! We're assuming that you already have some experience with Remix, i.e. you understand the basics of using `loader` and `action` functions, and you're familiar with session/cookie authentication in Remix. The full repo from this blog can be found [here on GitHub](https://github.com/jayalmaraz).
-
-> !TODO: LINK TO GITHUB REPOSITORY CONTAINING EXAMPLE PROJECT
+Now let's look at the code! We're assuming that you already have some experience with Remix, i.e. you understand the basics of using `loader` and `action` functions, and you're familiar with session/cookie authentication in Remix. The full repo from this blog can be found <a href="https://github.com/jayalmaraz/supabase-magic-link-auth-remix-example" target="_blank" rel="noopener noreferrer">here on GitHub</a>.
 
 First get your server side utilities setup. You'll need a standard Supabase client from the `supabase-js` SDK. Be sure to add your own project's URL and anonymous key:
 
@@ -136,7 +134,7 @@ const supabase = createClient(
 export default supabase;
 ```
 
-We'll also need a session service. Most of this file is inspired by the [boilerplate example](https://remix.run/docs/en/v1/tutorials/jokes#build-logout-action) found in the Remix Jokes App tutorial, including `getUserId`, `requireUserId`, `logout`, and `createUserSession` functions. We include our own `login` and `verify` functions using our Supabase client:
+We'll also need a session service. Most of this file is inspired by the <a href="https://remix.run/docs/en/v1/tutorials/jokes#build-logout-action" target="_blank" rel="noopener noreferrer">boilerplate example</a> found in the Remix Jokes App tutorial, including `getUserId`, `requireUserId`, `logout`, and `createUserSession` functions. We include our own `login` and `verify` functions using our Supabase client:
 
 ```ts showLineNumbers title="app/utils/session.server.ts (snippet ✂️)"
 // ...
