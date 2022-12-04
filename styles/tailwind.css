@@ -63,8 +63,7 @@ h2 a {
 
 h2 a:hover {
   cursor: pointer !important;
-  /* text-decoration: underline !important; */
-  opacity: .9;
+  text-decoration: underline !important;
 }
 
 /*
