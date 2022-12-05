@@ -1,0 +1,131 @@
+---
+meta:
+  title: Code Syntax Highlighting
+  description: Testing code syntax
+  date: 2022-11-07T06:05:00Z
+headers:
+  Cache-Control: no-cache
+---
+
+import { PostLayout } from '~/components/PostLayout';
+
+<PostLayout 
+  title={meta.title}
+  date={meta.date}
+  src="https://images.unsplash.com/photo-1513600431497-cfd2af01b6f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+photoByName="eberhard 🖐 grossgasteiger"
+photoByUrl="https://unsplash.com/@eberhardgross?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+photoOnName="Unsplash"
+photoOnUrl="https://unsplash.com/s/photos/nature?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+>
+
+I've been building React applications since 2015. Since then, React was the biggest single productivity boost for my development by a long shot. React's declarative model for rendering UI based on state drastically simplified the way I thought about building UIs for the web. It also gave me a great way to think about state that was miles ahead of what I had been doing with Angular.js and Backbone before it.
+
+React's tagline is:
+
+> A JavaScript library for building user interfaces
+
+React does an excellent job of this by giving you that declarative component model it pioneered. You can't build a user interface without managing some state (is the combobox menu `open` or `closed`?). This is why React _has_ component state management.
+
+## Coding
+
+### Javascript
+
+Markdown and `Mdx` parsing is supported via `unified`, and other remark and rehype packages. `next-mdx-remote` allows us to parse `.mdx` and `.md` files in a more flexible manner without touching webpack.
+
+```js
+import { LiveReload } from '@remix-run/react';
+
+// Here is a comment!
+
+export default function App() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <title>Remix: So great, it's funny!</title>
+      </head>
+      <body>
+        Hello world
+        <LiveReload />
+      </body>
+    </html>
+  );
+}
+```
+
+### Typescript
+
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English
+
+```ts
+type Value = {
+  bar: string;
+  mee: string;
+  value: string;
+};
+
+function foo(bar: string): Value {
+  let mee = 'Hello, World!';
+
+  // Output variables
+  console.log({ mee, bar });
+
+  // Return concat
+  return {
+    bar,
+    mee,
+    value: `${mee} ${bar}`,
+  };
+}
+
+foo('Ligma');
+```
+
+### HTML
+
+This is where the img tag's sizes and srcset attributes come to into play. The TL;DR of these attributes is that it allows you to tell the browser different versions of your image for different screen widths (srcset) and what size the image should be for a given set of media queries (sizes). Here's the example from MDN:
+
+```html
+<img
+  title="Photo by Kari Shea"
+  class="z-10 rounded-lg object-cover object-center transition-opacity"
+  alt="MacBook Pro on top of brown table"
+  src="https://res.cloudinary.com/kentcdodds-com/image/upload/w_1517,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop"
+  srcset="
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_280,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop   280w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_560,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop   560w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_840,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop   840w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_1100,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop 1100w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_1650,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop 1650w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_2500,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop 2500w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_2100,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop 2100w,
+    https://res.cloudinary.com/kentcdodds-com/image/upload/w_3100,q_auto,f_auto,b_rgb:e6e9ee/kentcdodds.com/content/blog/how-i-built-a-modern-website-in-2021/banner_iplhop 3100w
+  "
+  sizes="(max-width:1023px) 80vw, (min-width:1024px) and (max-width:1620px) 67vw, 1100px"
+/>
+```
+
+## Pure templates
+
+Markdown and Mdx parsing is supported via `unified`, and other remark and rehype packages. `next-mdx-remote` allows us to parse `.mdx` and `.md` files in a more flexible manner without touching webpack.
+
+```
+remix-jokes
+├── README.md
+├── app
+│   ├── entry.client.tsx
+│   ├── entry.server.tsx
+│   ├── root.tsx
+│   └── routes
+│       └── index.tsx
+├── package-lock.json
+├── package.json
+├── public
+│   └── favicon.ico
+├── remix.config.js
+├── remix.env.d.ts
+└── tsconfig.json
+```
+
+</PostLayout>

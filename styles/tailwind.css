@@ -1,0 +1,346 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Medium.ttf");
+  font-weight: medium;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "DM_Sans";
+  src: url("/fonts/DM_Sans/DMSans-Bold.ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* 
+  Hacking the layout to allow for full-width code
+  <pre> blocks (wrapped in [data-rehype-pretty-code-fragment] divs) will be full width at smaller screen sizes.
+  We control this by either adding or removing padding, then allow the max-width parent to do the rest
+*/
+.ykwc-post-layout main>*:not([data-rehype-pretty-code-fragment]):not(details) {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  max-width: 821px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Export some of that width-responsive for use in the layout */
+.ykwc-post-layout-col,
+summary {
+  width: 100%;
+  max-width: 821px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ykwc-post-layout-pad,
+summary {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/*
+  Link headings
+*/
+h2 a {
+  color: inherit !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  text-decoration: none !important;
+}
+
+h2 a:hover {
+  cursor: pointer !important;
+  text-decoration: underline !important;
+}
+
+/*
+  Simple custom styles for inline code
+*/
+
+p>code,
+li>code {
+  padding: 0 4px;
+  border-radius: 4px;
+  font-size: .875em;
+  font-weight: bold;
+  color: #282828;
+}
+
+.dark p>code,
+.dark li>code {
+  color: #ffffff;
+}
+
+p>code::before,
+li>code::before {
+  font-weight: bolder;
+  content: "`";
+}
+
+p>code::after,
+li>code::after {
+  font-weight: bolder;
+  content: "`";
+}
+
+/* 
+  Simple custom styles for block quotes
+*/
+blockquote {
+  border: none;
+}
+
+blockquote>* {
+  color: #5e646f;
+  background: #fafafa;
+  padding: 2rem 2rem;
+  font-size: .875em;
+  border-radius: .75rem;
+}
+
+.dark blockquote>* {
+  color: #ffffff !important;
+  /* background: #282828; */
+  background: rgb(47, 47, 51);
+}
+
+blockquote>*::before {
+  content: "“";
+}
+
+blockquote>*::after {
+  content: "”";
+}
+
+/*
+  Simple custom styles for details
+*/
+summary {
+  margin-top: .75rem;
+}
+
+summary:hover {
+  cursor: pointer;
+}
+
+details pre {
+  margin-top: 0.5rem;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #dedede;
+  padding-top: 2rem;
+  border-radius: .75rem;
+}
+
+.dark details pre {
+  border-color: #2d323a;
+}
+
+/*
+  Override for non-highlight.js pre/code elements (i.e. the containers)
+  We bring some of the original styles provided by @tailwindcss/typography prose
+  But we allow the styles chosen by the GitHub theme(s) below to overwrite
+*/
+pre {
+  /* color: #5e646f; */
+  background: #f4f2f2;
+  /* background: #fafafa; */
+  display: flex;
+  overflow-x: auto;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  font-weight: 400;
+  font-size: .75em;
+  line-height: 1;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.dark pre {
+  /* color: #adbac7; */
+  background: #151c27;
+}
+
+pre code {
+  background-color: transparent;
+  border-width: 0;
+  border-radius: 0;
+  padding: 0;
+  font-weight: inherit;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Ensure code-extra wrappers are always filling all of the H-space that they have */
+[data-rehype-pretty-code-fragment] {
+  width: 100%;
+}
+
+/* Content has wider X-padding as soon as the screen is slightly larger */
+@media (min-width: theme('screens.sm')) {
+
+  .ykwc-post-layout-pad,
+  .ykwc-post-layout main>*:not([data-rehype-pretty-code-fragment]):not(details) {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* Content has wider X-padding as soon as the screen is slightly larger */
+@media (min-width: theme('screens.md')) {
+
+  .ykwc-post-layout-pad,
+  .ykwc-post-layout main>*:not([data-rehype-pretty-code-fragment]):not(details) {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+}
+
+/* Give the code-extra wrappers some padding & rounded to 'snap' them in at larger sizes */
+@media (min-width: theme('screens.lg')) {
+
+  [data-rehype-pretty-code-fragment] {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+
+  pre {
+    border-radius: .75rem;
+  }
+
+  [data-rehype-pretty-code-title] {
+    border-top-left-radius: .75rem;
+    border-top-right-radius: .75rem;
+  }
+
+  [data-rehype-pretty-code-title]~pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+/*  */
+/* Rehype Pretty Code */
+/* FUCK AROUND AND FIND OUT */
+/*  */
+
+[data-rehype-pretty-code-title] {
+  color: #9c9898;
+  background: #f4f2f2;
+  font-family: monospace;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  font-weight: 400;
+  font-size: .75em;
+  line-height: 1;
+  margin-top: 3rem;
+}
+
+.dark [data-rehype-pretty-code-title] {
+  color: #5e646f;
+  background: #151c27;
+}
+
+[data-rehype-pretty-code-title]::before {
+  content: "├── 📄 ";
+}
+
+[data-rehype-pretty-code-title]~pre {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+[data-code-file] {
+  margin-top: -1.25rem;
+  margin-bottom: 3rem;
+}
+
+[data-code-file] summary {
+  font-family: monospace;
+  font-size: .75em;
+}
+
+.line {
+  padding: 4.5px 2.25rem;
+  box-sizing: border-box;
+  border-left: 3px solid transparent;
+}
+
+.highlighted {
+  background: #f3eaf3;
+  border-color: rgb(255, 143, 240);
+}
+
+.dark .highlighted {
+  background: #1f2239;
+  border-color: rgb(185, 100, 173);
+}
+
+[data-language="text"] * {
+  color: #5e646f !important;
+}
+
+
+.dark [data-language="text"] * {
+  color: #adbac7 !important;
+}
+
+
+code[data-line-numbers] {
+  counter-reset: line;
+}
+
+code[data-line-numbers]>.line::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1.85rem;
+  text-align: right;
+  color: gray;
+
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+
+}
+
+.dark *[data-rehype-pretty-code-title][data-theme='light'],
+.dark pre[data-theme='light'],
+.dark code[data-theme='light'] {
+  display: none;
+}
+
+html:not(.dark) *[data-rehype-pretty-code-title][data-theme='dark'],
+html:not(.dark) pre[data-theme='dark'],
+html:not(.dark) code[data-theme='dark'] {
+  display: none;
+}
