@@ -54,7 +54,10 @@ export default function App() {
       <body>
         <Outlet />
         <ScrollRestoration />
+
         <Scripts />
+        <script src="https://certain-lazarus.ykwc.dev/script.js" data-site="IZEWTYPT" defer></script>
+
         <LiveReload />
       </body>
     </html>
