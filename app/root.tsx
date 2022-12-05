@@ -27,7 +27,7 @@ export const meta: MetaFunction = () => ({
   // Open Graph
   'og:title': "ykwc.dev | You know what's cool?",
   'og:url': 'https://ykwc.dev/',
-  'og:description': "That idea is cool, let's make it happen",
+  'og:description': "ykwc.dev | You know what's cool?",
   image: 'https://ykwc.dev/ogimage-lg.png',
   'og:image': 'https://ykwc.dev/ogimage-lg.png',
   'og:image:width': '1200',
