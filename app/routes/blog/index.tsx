@@ -55,7 +55,7 @@ export default function Blog() {
         <h2 className="text-6xl font-bold">writing</h2>
       </header>
 
-      <ul className="flex flex-col w-full gap-y-2">
+      <ul className="flex flex-col w-full gap-y-2 pb-8">
         {posts.map((post: any) => (
           <li
             key={post.slug}
