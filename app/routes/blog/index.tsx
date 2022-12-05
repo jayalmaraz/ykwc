@@ -3,9 +3,7 @@ import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import { RootLayout } from '~/components/RootLayout';
 
-import * as postA from './hello-world.mdx';
-import * as postB from './code.mdx';
-import * as postC from './supabase-magic-link-auth-in-remix.mdx';
+import * as postSupabaseMagicLinkAuthInRemix from './supabase-magic-link-auth-in-remix.mdx';
 
 /**
  *
@@ -35,7 +33,7 @@ function postFromModule(mod: any) {
   return {
     slug: mod.filename.replace(/\.mdx?$/, ''),
     ...mod.attributes.meta,
-    date: getDateReadable(mod.attributes.meta.date),
+    date: getDateReadable(mod.attributes.postLayoutData.date),
   };
 }
 
@@ -45,7 +43,7 @@ export const meta: MetaFunction = () => ({
 });
 
 export async function loader() {
-  return json([postC, postB, postA].map(postFromModule));
+  return json([postSupabaseMagicLinkAuthInRemix].map(postFromModule));
 }
 
 export default function Blog() {
