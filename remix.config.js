@@ -2,11 +2,6 @@ const fs = require('fs');
 
 const rehypePrettyCodeOptions = {
   theme: {
-    // light: 'slack-ochin',
-    // light: 'min-light',
-    // light: 'light-plus',
-    // light: 'github-light',
-
     light: JSON.parse(fs.readFileSync(require.resolve('./themes/OneLight.json'), 'utf-8')),
     dark: 'github-dark-dimmed',
   },
@@ -39,6 +34,11 @@ module.exports = {
   // serverBuildPath: "api/index.js",
   // publicPath: "/build/",
 
+  /**
+   * Do not be sleeping on the following resources:
+   * https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#list-of-plugins
+   * https://rehype-pretty-code.netlify.app/
+   */
   mdx: async (filename) => {
     const [rehypePrettyCode, rehypeSlug, rehypeAutolinkHeadings, rehypeAccessibleEmojis] = await Promise.all([
       import('rehype-pretty-code').then((mod) => mod.default),

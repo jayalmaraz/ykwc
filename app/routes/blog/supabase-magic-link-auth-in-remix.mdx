@@ -1,25 +1,28 @@
 ---
 meta:
   title: Supabase Magic Link Authentication in Remix
-  description: Supabase Magic Link Authentication in Remix
-  date: 2022-12-05T08:00:00Z
+  description: ykwc.dev Blog Post on working with Supabase Magic Link Authentication in a Remix application
+  og:title: Supabase Magic Link Authentication in Remix
+  og:url: https://ykwc.dev/blog/supabase-magic-link-auth-in-remix
+  og:description: ykwc.dev Blog Post on working with Supabase Magic Link Authentication in a Remix application
+  image: https://ykwc.dev/supabase-magic-link-auth-in-remix-ogimage-lg.png
+  og:image: https://ykwc.dev/supabase-magic-link-auth-in-remix-ogimage-lg.png
+  twitter:image: https://ykwc.dev/supabase-magic-link-auth-in-remix-ogimage-lg.png
 headers:
   Cache-Control: no-cache
+postLayoutData:
+  path: supabase-magic-link-auth-in-remix
+  date: 2022-12-05T08:00:00Z
+  src: https://images.unsplash.com/photo-1668259678563-95f9a18e2323?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80
+  photoByName: Mak
+  photoByUrl: https://unsplash.com/@mak_jp?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
+  photoOnName: Unsplash
+  photoOnUrl: https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText
 ---
 
 import { PostLayout } from '~/components/PostLayout';
 
-<PostLayout
-title={meta.title}
-path="supabase-magic-link-auth-in-remix"
-date={meta.date}
-src="https://images.unsplash.com/photo-1668259678563-95f9a18e2323?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
-photoByName="Mak"
-photoByUrl="https://unsplash.com/@mak_jp?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-photoOnName="Unsplash"
-photoOnUrl="https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-
->
+<PostLayout title={attributes.meta.title} {...attributes.postLayoutData}>
 
 I recently started using <a href="https://remix.run/" target="_blank" rel="noopener noreferrer">Remix</a>. I'm using Remix in a few side projects, and I even used Remix to build this blog. I've loved it so far. Something that I got stuck on, when working on a different project, was using <a href="https://supabase.com/docs/reference/javascript/auth-signinwithotp" target="_blank" rel="noopener noreferrer">Supabase's Magic Link authentication</a> in a fresh Remix app. I couldn't find any way to the default Magic Link to create an authenticated session in Remix, without relying on client-side Javascript. So I started digging.
 
