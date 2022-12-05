@@ -21,7 +21,7 @@ photoOnUrl="https://unsplash.com/explore?utm_source=unsplash&utm_medium=referral
 
 >
 
-I recently started using <a href="https://remix.run/" target="_blank" rel="noopener noreferrer">Remix</a>. I'm using Remix in a few side projects and I used Remix to build this blog. I've loved it so far. Something that I got stuck on, when working on a different project, was using <a href="https://supabase.com/docs/reference/javascript/auth-signinwithotp" target="_blank" rel="noopener noreferrer">Supabase's Magic Link authentication</a> in a fresh Remix app. I couldn't find any way in Remix (without relying on Javascript) to use Supabase's Magic Link to create an authenticated session. So I started digging.
+I recently started using <a href="https://remix.run/" target="_blank" rel="noopener noreferrer">Remix</a>. I'm using Remix in a few side projects, and I even used Remix to build this blog. I've loved it so far. Something that I got stuck on, when working on a different project, was using <a href="https://supabase.com/docs/reference/javascript/auth-signinwithotp" target="_blank" rel="noopener noreferrer">Supabase's Magic Link authentication</a> in a fresh Remix app. I couldn't find any way to the default Magic Link to create an authenticated session in Remix, without relying on client-side Javascript. So I started digging.
 
 ## Why doesn't the default Supabase Magic Link work?
 
@@ -34,16 +34,16 @@ https://gffwplsndbpktzwpihso.supabase.co/auth/v1/verify?token=502743743a29d0422e
 Let's unpack what we see here;
 
 - `https://gffwplsndbpktzwpihso.supabase.co` – our Supabase project URL,
-- `/supabase.co/auth/v1/verify` – path to Supabase auth service, and
-- `token`, `type`, `redirect_to` – data for Supabase auth service
+- `/supabase.co/auth/v1/verify` – the path to Supabase's auth service, and
+- `token`, `type`, `redirect_to` – data for Supabase's auth service
 
-From this we can infer that the Supabase auth service is doing some work. It looks at the `type`, and consumes the `token` to verify that the link is valid. It will then `redirect` back `to` our app and tell it the result of the authentication; pass or fail. Great, so why doesn't that _just work_ with a Remix app?
+From this we can guess that the Supabase auth service is doing some work. It looks at the `type`, and consumes the `token` to verify that the link is valid. It will then `redirect` back `to` our app to tell us the result of the authentication, "pass or fail". Great, so why doesn't that just work with a Remix app?
 
-The problem is the "pass or fail". Supabase expects us to handle this on our end with client-side Javascript. The standard solution would be a `useEffect` containing the Supabase `onAuthStateChange` listener to catch the "magic" and then store the authenticated state as a session in a React `Context`. That's a lot of Javascript, not very Remix! Let's take a look at the Remix solution and see how we can #useThePlatform.
+The problem is the way that we hear about the "pass or fail". Supabase expects us to handle this with client-side Javascript. The standard solution would be a `useEffect` containing the Supabase `onAuthStateChange` listener to catch the "magic", and then store the authenticated state as a session in a React `Context`. That's a lot of Javascript, not very Remix! Let's take a look at a different solution to see how we can #useThePlatform.
 
-## The Remix solution
+## A different solution
 
-To get things running, we're going to make our own magic link. We know that we don't want to use the out-of-the box magic link because it relies on Javascript to work. But we still want to provide the user experience of clicking a link via email, and "magically" being signed up/signed in. To create our solution we need to do two things:
+To start with, we're going to make our own magic. We know that we don't want to use the out-of-the box magic link because it relies on Javascript to work. But we still want to provide the user experience of clicking a link via email, and "magically" being signed up/signed in. To create our solution we need to do two things:
 
 1. Customise the Supabase Authentication Email Templates – our own magic link!
 2. Implement an OTP verification handler – our own little auth service!
