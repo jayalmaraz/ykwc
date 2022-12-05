@@ -139,8 +139,8 @@ export default function App() {
 
         <ScrollRestoration />
 
+        <script src="https://certain-lazarus.ykwc.dev/script.js" data-site="IZEWTYPT" defer />
         <Scripts />
-        <script src="https://certain-lazarus.ykwc.dev/script.js" data-site="IZEWTYPT" defer></script>
 
         <LiveReload />
       </body>
