@@ -96,11 +96,11 @@ And then similarly into the _Magic Link_ Email Template:
 <p><a href="{{ .SiteURL }}/auth/verify?email={{ .Email }}&token={{ .Token }}&type=magiclink">Confirm email</a></p>
 ```
 
-With the custom email templates done, all that's left is to write our own OTP authentication flow in Remix.
+With the custom email templates done, all that's left is to write our own OTP authentication service in Remix.
 
 ## 2. Our own little auth service (Remix)
 
-Our authentication system is _very_ standard. 80% of the code in this example is just boilerplate Remix. In terms of routes, we'll need a simple sign in page, and then a profile page to show when we're signed in. The 'magic link' side of things is handled by a verification route, which we direct the user to via our custom link. We also have a basic confirmation message page to tell the user to go and check their email after signing in. Everything is then wrapped up in a stock standard Remix authentication session, which uses the Supabase client to call the sign in and verify functions.
+Our setup is _very_ standard. Most of this example is just boilerplate Remix, to which we'll add a few specific Supabase OTP things. As far as routes go, we'll need a simple sign in page, and then a profile page to show the user details once they're signed in. The sign in page will also double as the sign _up_ page. The 'magic link' side of things will be handled in a verification route, which we'll direct the user to with our customised email link. We also have a static confirmation page to tell the user to go and check their emails after they submit the sign in form. The authentication will be managed with a Remix cookie session, which will use the Supabase client to call on the 'sign in' and 'verify OTP' functions. The project structure looks something like this:
 
 ```text
 app
@@ -118,9 +118,44 @@ app
      └── 📄 supabase.server.ts
 ```
 
-Now let's look at the code! We're assuming that you already have some experience with Remix, i.e. you understand the basics of using `loader` and `action` functions, and you're familiar with session/cookie authentication in Remix. The full repo from this blog can be found <a href="https://github.com/jayalmaraz/supabase-magic-link-auth-remix-example" target="_blank" rel="noopener noreferrer">here on GitHub</a>.
+The couple of dependencies that we use in these examples are Supabase (obviously) and `tiny-invariant` (for form validation):
 
-First get your server side utilities setup. You'll need a standard Supabase client from the `supabase-js` SDK. Be sure to add your own project's URL and anonymous key:
+<details data-code-file open>
+  <summary>npm</summary>
+  <div>
+
+```sh
+npm i @supabase/supabase-js tiny-invariant
+```
+
+  </div>
+</details>
+
+<details data-code-file>
+  <summary>yarn</summary>
+  <div>
+
+```sh
+yarn add @supabase/supabase-js tiny-invariant
+```
+
+  </div>
+</details>
+
+<details data-code-file>
+  <summary>pnpm</summary>
+  <div>
+
+```sh
+pnpm i @supabase/supabase-js tiny-invariant
+```
+
+  </div>
+</details>
+
+Now let's look at the code! I won't be explaining any Remix concepts in this post. The examples assume that you're already somewhat familiar with Remix, i.e. working with `loader` and `action` functions, _server_ utilities, and session/cookie authentication. The full working repo is <a href="https://github.com/jayalmaraz/supabase-magic-link-auth-remix-example" target="_blank" rel="noopener noreferrer">here on GitHub</a>.
+
+First, let's get our server side utilities setup. We'll start with a standard Supabase client - be sure to add your own project's URL and anonymous keys:
 
 ```ts showLineNumbers title="app/utils/supabase.server.ts"
 import { createClient } from '@supabase/supabase-js';
@@ -134,7 +169,7 @@ const supabase = createClient(
 export default supabase;
 ```
 
-We'll also need a session service. Most of this file is inspired by the <a href="https://remix.run/docs/en/v1/tutorials/jokes#build-logout-action" target="_blank" rel="noopener noreferrer">boilerplate example</a> found in the Remix Jokes App tutorial, including `getUserId`, `requireUserId`, `logout`, and `createUserSession` functions. We include our own `login` and `verify` functions using our Supabase client:
+We will also need a session service. Most of this file is derived from the <a href="https://remix.run/docs/en/v1/tutorials/jokes#build-logout-action" target="_blank" rel="noopener noreferrer">boilerplate example from the Remix 'Jokes App' tutorial</a>. In particular, the `getUserId`, `requireUserId`, `logout`, and `createUserSession` functions are practically unchanged. We include our own `login` and `verify` functions that call our Supabase client. Our login function uses Supabase's `auth.signInWithOtp` to generate the magic link email, while our verify function uses their `auth.verifyOtp` to authenticate based on the token we included in the email link:
 
 ```ts showLineNumbers title="app/utils/session.server.ts (snippet ✂️)"
 // ...
@@ -274,7 +309,7 @@ export { login, verify, getUserId, requireUserId, logout, createUserSession };
   </div>
 </details>
 
-Then create a basic sign in form to take an email address as input, and call the `signInWithOtp` function in the submit action:
+Now we're ready to create a basic sign in form. The form should take an email address as input, and call on our `login` function on submission:
 
 ```tsx showLineNumbers title="app/routes/index.tsx"
 import type { ActionFunction } from '@remix-run/node';
@@ -319,7 +354,7 @@ export default function Index() {
 }
 ```
 
-Next you'll want a really simple, completely static, message screen to direct the user to if the sign in form submits successfully:
+Next we want a really simple, completely static, message page to direct the user to when the sign in form submits:
 
 ```tsx showLineNumbers title="app/routes/auth/confirm.tsx"
 export default function ConfirmPage() {
@@ -332,7 +367,7 @@ export default function ConfirmPage() {
 }
 ```
 
-And now the fun part. This is our "magic" verification page, where we direct the user when they click on the link in the email. This page grabs the info from the URL params (which we already set in the Supabase email templates) and calls the Supabase `verifyOtp` function. If the verification is successful we create a session:
+And now the fun part. This is our "magic" verification page, where we direct to when the user clicks on the email link. This page grabs the info from the URL params (which we set in the Supabase email templates) and calls our `verify` function. If the verification is successful we create a session:
 
 ```tsx showLineNumbers title="app/routes/auth/verify.tsx"
 import type { LoaderFunction } from '@remix-run/node';
@@ -370,7 +405,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       throw new Error('Authentication failed');
     }
 
-    // create session from resulting user ID
+    // verification is successful, create session from user ID
     return createUserSession(userId, '/profile');
   } catch (e: any) {
     return json({ error: 'Unable to verify magic link 💩' });
@@ -390,7 +425,7 @@ export default function VerifyPage() {
 }
 ```
 
-For housekeeping, here is an example of a basic profile page so that you can see the user ID attached to the session. It also provides a simple logout action to clear the session:
+For housekeeping, here is an example of a profile page so that we can see the user ID attached to the authenticated session. It also provides a simple logout action to clear the session:
 
 ```tsx showLineNumbers title="app/routes/profile.tsx"
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
@@ -398,7 +433,7 @@ import { json } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { logout, requireUserId } from '../utils/session.server';
 
-// this should be a separate route so that it can be reused
+// this should go in a separate route so that it can be reused
 export const action: ActionFunction = async ({ request }) => {
   return logout(request);
 };
@@ -425,7 +460,7 @@ export default function ProfilePage() {
 }
 ```
 
-Done! Now you have a Remix app using Supabase magic link authentication, without relying on client-side Javascript.
+Done! Now we have a working Remix app using Supabase's magic link authentication, without relying on any client-side Javascript.
 
 ## Conclusion
 
