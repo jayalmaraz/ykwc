@@ -33,7 +33,7 @@ function postFromModule(mod: any) {
   return {
     slug: mod.filename.replace(/\.mdx?$/, ''),
     ...mod.attributes.meta,
-    date: getDateReadable(mod.attributes.postLayoutData.date),
+    date: mod.attributes.postLayoutData.date,
   };
 }
 

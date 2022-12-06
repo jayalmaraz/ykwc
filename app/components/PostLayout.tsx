@@ -10,7 +10,7 @@ function getTwitterShareUrl(path: string) {
 type Props = PropsWithChildren & {
   title: string;
   path: string;
-  date?: Date;
+  date?: string;
   src?: string;
   photoByName?: string;
   photoByUrl?: string;
@@ -35,9 +35,9 @@ function PostLayout({ title, path, date, src, photoByName, photoByUrl, photoOnNa
         {/* Title and image container */}
         <header className="w-full pb-16">
           <div className="w-full ykwc-post-layout-col ykwc-post-layout-pad">
-            <h2 className="text-4xl mb-8 font-bold">{title}</h2>
+            <h2 className="text-4xl font-bold">{title}</h2>
+            {date && <p className="text-4xl font-medium text-gray-300 mb-8">{date}</p>}
           </div>
-
           <div className="ykwc-post-layout-pad">
             {src ? (
               <div className="flex justify-center">
