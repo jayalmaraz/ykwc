@@ -1,29 +1,6 @@
 import { Link } from '@remix-run/react';
 import type { PropsWithChildren } from 'react';
 
-/**
- *
- * @param timestamp UTC timestamp string
- * @returns Human readable date
- */
-function getDateReadable(date: Date) {
-  const now = new Date();
-  const isCurrentYear = now.getFullYear() === date.getFullYear();
-  const dayMonthReadable = date.toLocaleDateString(undefined, {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  });
-
-  if (isCurrentYear) {
-    return dayMonthReadable;
-  }
-
-  return `${dayMonthReadable}, ${date.toLocaleDateString(undefined, {
-    year: 'numeric',
-  })}`;
-}
-
 function getTwitterShareUrl(path: string) {
   const twitterText = `I found this [useful | helpful | interesting | entertaining], via @jayalmaraz`;
   const postUrl = `https://ykwc.dev/blog/${path ?? ''}`;
@@ -58,8 +35,7 @@ function PostLayout({ title, path, date, src, photoByName, photoByUrl, photoOnNa
         {/* Title and image container */}
         <header className="w-full pb-16">
           <div className="w-full ykwc-post-layout-col ykwc-post-layout-pad">
-            <h2 className="text-4xl font-bold">{title}</h2>
-            {date && <p className="text-4xl font-medium text-gray-300 mb-8">{getDateReadable(date)}</p>}
+            <h2 className="text-4xl mb-8 font-bold">{title}</h2>
           </div>
 
           <div className="ykwc-post-layout-pad">
