@@ -112,7 +112,7 @@ export default function App() {
             <Outlet />
           </div>
 
-          <footer className="bg-white md:bg-transparent py-20 w-full">
+          <footer className="bg-white dark:bg-zinc-900 md:bg-transparent dark:md:bg-transparent md:text-inherit py-20 w-full">
             <RootLayout>
               <Link to="/" className="font-bold text-xl">
                 ykwc.dev
